@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="login-page">
+
+    <div class="login-container">
+        <div class="login-art">
+            <img src="/images/hero.jpg" alt="Artisan furniture">
+        </div>
+        <div class="form-container">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <a href="/" class="logo">DesignDekhoo</a>
+                    <h2>Welcome, Shop Owner</h2>
+                    <p>Access your dashboard to manage your craft.</p>
+                </div>
+
+                <div class="form-tabs">
+                    <button class="tab-link active" data-tab="login">Login</button>
+                    <button class="tab-link" data-tab="signup">Sign Up</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="form-content active" action="/shop-dashboard" method="GET">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-options">
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn-submit">Login</button>
+                </form>
+
+                <!-- Signup Form -->
+                <form id="signup-form" class="form-content" action="/shop-dashboard" method="GET">
+                    <div class="form-group">
+                        <label for="shop-name">Shop Name</label>
+                        <input type="text" id="shop-name" name="shop-name" placeholder="Your Artisan Shop" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email Address</label>
+                        <input type="email" id="signup-email" name="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Create Password</label>
+                        <input type="password" id="signup-password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/login.js" defer></script>
+</body>
+</html>

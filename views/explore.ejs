@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="explore-page">
+
+    <!-- || HEADER -->
+    <header class="main-header">
+        <div class="logo">
+            <a href="/">DesignDekhoo</a>
+        </div>
+        <nav class="main-nav">
+            <div class="nav-links">
+                <a href="/explore" class="nav-btn">Explore</a>
+                <a href="/login" class="nav-btn">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="explore-header">
+            <h1>Explore Our Collection</h1>
+            <p>Find unique, handcrafted furniture from local artisans across the country.</p>
+        </div>
+        <div class="explore-grid">
+            <!-- || FILTERS SIDEBAR -->
+            <aside class="filter-sidebar">
+                <div class="filter-header">
+                    <h3>Filters</h3>
+                    <button class="filter-close-btn">&times;</button>
+                </div>
+                <div class="filter-body">
+                    <div class="filter-group">
+                        <h4>Location</h4>
+                        <input type="text" id="location" name="location" placeholder="e.g., Jaipur, Rajasthan">
+                    </div>
+                    <div class="filter-group">
+                        <h4>Furniture Type</h4>
+                        <select id="furniture-type" name="furniture-type">
+                            <option value="">All Types</option>
+                            <option value="living">Living Room</option>
+                            <option value="bedroom">Bedroom</option>
+                            <option value="dining">Dining</option>
+                            <option value="office">Office</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <h4>Material</h4>
+                        <select id="material" name="material">
+                            <option value="">All Materials</option>
+                            <option value="teak">Teak</option>
+                            <option value="sagwan">Sagwan</option>
+                            <option value="plywood">Plywood</option>
+                            <option value="mdf">MDF</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <h4>Budget</h4>
+                        <input type="range" id="budget" name="budget" min="0" max="100000" step="1000" value="50000" class="budget-slider">
+                        <div class="budget-value">
+                            <span>₹0</span>
+                            <span>₹<output for="budget">50000</output></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-footer">
+                    <button class="btn-apply">Apply Filters</button>
+                    <button class="btn-clear">Clear</button>
+                </div>
+            </aside>
+
+            <!-- || RESULTS SECTION -->
+            <section class="results-section">
+                <div class="results-header">
+                    <button class="filter-toggle-btn">Filters</button>
+                    <div class="sort-control">
+                        <label for="sort-by">Sort by:</label>
+                        <select id="sort-by" name="sort-by">
+                            <option value="featured">Featured</option>
+                            <option value="newest">Newest</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="results-grid">
+                    <!-- Placeholder Product Cards -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="/images/lc2.jpg" alt="Classic Teak Chair">
+                            <button class="favorite-btn">&hearts;</button>
+                        </div>
+                        <div class="product-info">
+                            <h3>Classic Teak Chair</h3>
+                            <p class="location">Jaipur, Rajasthan</p>
+                            <p class="price">₹12,500</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="/images/lc3.jpg" alt="Modern Plywood Desk">
+                            <button class="favorite-btn">&hearts;</button>
+                        </div>
+                        <div class="product-info">
+                            <h3>Modern Plywood Desk</h3>
+                            <p class="location">Pune, Maharashtra</p>
+                            <p class="price">₹8,000</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="/images/dining.jpg" alt="Dining Table Set">
+                            <button class="favorite-btn">&hearts;</button>
+                        </div>
+                        <div class="product-info">
+                            <h3>Dining Table Set</h3>
+                            <p class="location">Kochi, Kerala</p>
+                            <p class="price">₹25,000</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="/images/office.jpg" alt="Bookshelf">
+                            <button class="favorite-btn">&hearts;</button>
+                        </div>
+                        <div class="product-info">
+                            <h3>Bookshelf</h3>
+                            <p class="location">Mumbai, Maharashtra</p>
+                            <p class="price">₹6,500</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="/images/living.jpg" alt="Sofa Set">
+                            <button class="favorite-btn">&hearts;</button>
+                        </div>
+                        <div class="product-info">
+                            <h3>Sofa Set</h3>
+                            <p class="location">Delhi</p>
+                            <p class="price">₹45,000</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="/images/bedroom.jpg" alt="Office Chair">
+                            <button class="favorite-btn">&hearts;</button>
+                        </div>
+                        <div class="product-info">
+                            <h3>Bedroom Chair</h3>
+                            <p class="location">Bangalore, Karnataka</p>
+                            <p class="price">₹5,000</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- || FOOTER -->
+    <footer class="main-footer">
+        <p>&copy; 2026 DesignDekhoo. All Rights Reserved.</p>
+    </footer>
+
+    <script src="/js/animations.js" defer></script>
+    <script src="/js/explore.js" defer></script>
+</body>
+</html>

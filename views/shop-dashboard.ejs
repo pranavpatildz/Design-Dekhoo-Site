@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Owner Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="dashboard-page">
+
+    <div class="dashboard-layout">
+        <!-- || SIDEBAR -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="logo">DesignDekhoo</a>
+            </div>
+            <div class="shop-profile">
+                <div class="profile-avatar">S</div>
+                <div class="profile-info">
+                    <h4>My Artisan Shop</h4>
+                    <p>Shop Owner</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="dashboard-home">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+                <a href="#" class="nav-item" data-target="add-catalog">
+                    <span class="nav-icon">➕</span> Add Catalog
+                </a>
+                <div class="nav-item has-submenu">
+                    <span class="nav-icon">🗂️</span> Categories
+                    <ul class="submenu">
+                        <li><a href="#" class="submenu-item" data-target="categories-bedroom">Bedroom</a></li>
+                        <li><a href="#" class="submenu-item" data-target="categories-living">Living Room</a></li>
+                        <li><a href="#" class="submenu-item" data-target="categories-kitchen">Kitchen</a></li>
+                        <li><a href="#" class="submenu-item" data-target="categories-office">Office</a></li>
+                        <li><a href="#" class="submenu-item" data-target="categories-custom">Custom Furniture</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/login" class="nav-item"><span class="nav-icon">↩️</span> Logout</a>
+            </div>
+        </aside>
+
+        <!-- || MAIN CONTENT -->
+        <main class="dashboard-main">
+            <header class="dashboard-header">
+                <button class="sidebar-toggle-btn">☰</button>
+                <h1>Dashboard</h1>
+            </header>
+
+            <!-- || DASHBOARD HOME SECTION -->
+            <section id="dashboard-home" class="dashboard-section active">
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>Total Products</h3>
+                        <p>125</p>
+                    </div>
+                    <div class="card">
+                        <h3>Total Orders</h3>
+                        <p>45</p>
+                    </div>
+                    <div class="card">
+                        <h3>Revenue</h3>
+                        <p>₹1,50,000</p>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h3>Sales Overview (Placeholder)</h3>
+                    <div class="chart-placeholder"></div>
+                </div>
+            </section>
+
+            <!-- || ADD CATALOG SECTION -->
+            <section id="add-catalog" class="dashboard-section">
+                <h2>Add New Product</h2>
+                <form class="add-product-form">
+                    <div class="form-group">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" placeholder="e.g., Classic Teak Chair">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category</label>
+                        <select id="product-category">
+                            <option>Bedroom</option>
+                            <option>Living Room</option>
+                            <option>Kitchen</option>
+                            <option>Office</option>
+                            <option>Custom</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <textarea id="product-description" rows="4" placeholder="Describe your product..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Price (₹)</label>
+                        <input type="number" id="product-price" placeholder="e.g., 12500">
+                    </div>
+                    <div class="form-group">
+                        <label>Product Images</label>
+                        <div class="image-upload-placeholder">
+                            <input type="file" multiple>
+                            <p>Drag & drop images here, or click to browse.</p>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit">Add Product</button>
+                </form>
+            </section>
+
+            <!-- || CATEGORY SECTIONS (Example: Bedroom) -->
+            <section id="categories-bedroom" class="dashboard-section">
+                <h2>Bedroom Furniture</h2>
+                <div class="product-grid">
+                    <!-- Placeholder product cards -->
+                    <div class="product-card-dash">
+                        <img src="/images/bedroom.jpg" alt="Bedroom Product">
+                        <div class="product-info-dash">
+                            <h4>Modern Bed Frame</h4>
+                            <p>₹25,000</p>
+                        </div>
+                    </div>
+                    <!-- Add more product cards as needed -->
+                </div>
+            </section>
+             <section id="categories-living" class="dashboard-section">
+                <h2>Living Room Furniture</h2>
+                <div class="product-grid">
+                    <!-- Placeholder product cards -->
+                </div>
+            </section>
+             <section id="categories-kitchen" class="dashboard-section">
+                <h2>Kitchen Furniture</h2>
+                <div class="product-grid">
+                    <!-- Placeholder product cards -->
+                </div>
+            </section>
+             <section id="categories-office" class="dashboard-section">
+                <h2>Office Furniture</h2>
+                <div class="product-grid">
+                    <!-- Placeholder product cards -->
+                </div>
+            </section>
+             <section id="categories-custom" class="dashboard-section">
+                <h2>Custom Furniture</h2>
+                <div class="product-grid">
+                    <!-- Placeholder product cards -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/js/dashboard.js" defer></script>
+</body>
+</html>
