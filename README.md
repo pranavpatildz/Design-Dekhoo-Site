@@ -89,14 +89,14 @@ design-dekhoo/
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Clone the repository
-```bash
+
 git clone https://github.com/pranavpatildz/Design-Dekhoo-Site.git
 cd Design-Dekhoo-Site
 
 ### 2️⃣ Install dependencies
 
 Install frontend dependencies:
-```bash
+`
 npm install
 
 Install backend dependencies:
