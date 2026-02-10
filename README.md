@@ -103,7 +103,7 @@ Install backend dependencies:
 cd backend
 npm install
 
-###3️⃣ Environment Variables
+### 3️⃣ Environment Variables
 
 Create a .env file in the root and backend folder and add:
 
@@ -115,7 +115,7 @@ CLOUDINARY_API_SECRET=your_api_secret
 
 ⚠️ .env files are ignored by Git for security reasons.
 
-###4️⃣ Run the project
+### 4️⃣ Run the project
 
 Start the application:
 npm start
@@ -124,7 +124,7 @@ npm start
 For development mode:
 nodemon app.js
 
-👨‍💻 Author
+### 👨‍💻 Author
 
 Pranav Patil
 GitHub: https://github.com/pranavpatildz
