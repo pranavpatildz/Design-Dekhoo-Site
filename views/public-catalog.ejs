@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="public-catalog-title">Shop Catalog</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="public-catalog-page">
+    <div class="public-catalog-layout">
+        <header class="public-catalog-header">
+            <div class="container-fluid">
+                <div class="shop-header-content">
+                    <h1 id="shop-name-display">Your Shop Name</h1>
+                    <button class="btn-icon" id="open-map-btn" title="View on Map"><i class="fas fa-map-marker-alt"></i></button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="public-catalog-nav">
+            <div class="container-fluid">
+                <ul id="public-section-list">
+                    <!-- Sections will be dynamically loaded here by JS -->
+                    <li class="nav-item-public active" data-section="all-products">All Products</li>
+                    <li class="nav-item-public" data-section="bedroom">Bedroom</li>
+                    <li class="nav-item-public" data-section="living">Living Room</li>
+                    <li class="nav-item-public" data-section="dining">Dining</li>
+                    <li class="nav-item-public" data-section="kitchen">Kitchen</li>
+                    <li class="nav-item-public" data-section="office">Office</li>
+                    <li class="nav-item-public" data-section="storage">Storage</li>
+                    <li class="nav-item-public" data-section="outdoor">Outdoor</li>
+                    <li class="nav-item-public" data-section="custom">Custom</li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="public-catalog-main container-fluid">
+            <h2 id="current-public-section-title">All Products</h2>
+            <div class="public-product-grid-container">
+                <!-- Products will be dynamically loaded here by JS -->
+                 <div class="public-product-card">
+                    <img src="/images/bedroom.jpg" alt="Product Image">
+                    <div class="public-product-info">
+                        <h4>Placeholder Product 1</h4>
+                    </div>
+                </div>
+                 <div class="public-product-card">
+                    <img src="/images/living.jpg" alt="Product Image">
+                    <div class="public-product-info">
+                        <h4>Placeholder Product 2</h4>
+                    </div>
+                </div>
+                 <div class="public-product-card">
+                    <img src="/images/dining.jpg" alt="Product Image">
+                    <div class="public-product-info">
+                        <h4>Placeholder Product 3</h4>
+                    </div>
+                </div>
+            </div>
+             <div id="no-public-products-message" style="text-align: center; padding: 2rem; display: none;">
+                <p>No products found in this section.</p>
+            </div>
+        </main>
+
+        <!-- Public Product Detail Modal -->
+        <div id="public-product-detail-modal" class="modal" style="display:none;">
+            <div class="modal-content">
+                <span class="close-button public-close-modal">&times;</span>
+                <div class="modal-body">
+                    <div class="image-gallery">
+                        <div class="main-image">
+                            <img src="/images/hero.jpg" alt="Product Main Image">
+                        </div>
+                        <div class="thumbnail-images">
+                            <!-- Thumbnails will be dynamically loaded here by JS -->
+                            <img src="/images/hero.jpg" alt="Thumbnail 1" class="active">
+                            <img src="/images/hero2.jpg" alt="Thumbnail 2">
+                        </div>
+                    </div>
+                    <div class="product-details-modal">
+                        <h3 id="public-modal-product-name">Product Name</h3>
+                        <p class="text-muted">Section: <span id="public-modal-product-section"></span></p>
+                        <p id="public-modal-product-description">Optional description (material, finish, notes) will appear here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/js/public-catalog.js" defer></script>
+</body>
+</html>
