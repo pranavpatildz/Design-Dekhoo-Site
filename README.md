@@ -84,50 +84,64 @@ design-dekhoo/
 ├── README.md
 ├── package.json
 └── app.js
-
-
+```
 
 ---
 
 ## ⚙️ Installation & Setup
 
-### 1️⃣ Clone the repository
+Follow these steps to set up the DesignDekhoo project locally:
+
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/pranavpatildz/Design-Dekhoo-Site.git
 cd Design-Dekhoo-Site
+```
 
-### 2️⃣ Install dependencies
+### 2. Install Dependencies
+Install dependencies for both the main application and the backend:
 
-Install frontend dependencies:
 ```bash
+# Install root/frontend dependencies
 npm install
+```
 
-Install backend dependencies:
+```bash
+# Navigate to the backend directory and install its dependencies
 cd backend
 npm install
+cd ..
+```
 
-### 3️⃣ Environment Variables
+### 3. Environment Variables
+Create a `.env` file in the `backend/` directory with the following content:
 
-Create a .env file in the root and backend folder and add:
+```env
+PORT=5000
+MONGODB_URI="your_mongodb_connection_string"
+JWT_SECRET="your_jwt_secret_key"
+CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
+CLOUDINARY_API_KEY="your_cloudinary_api_key"
+CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+```
+⚠️ `.env` files are ignored by Git for security reasons.
 
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+### 4. Run Instructions
+Start both the backend server and the main application:
 
-⚠️ .env files are ignored by Git for security reasons.
-
-###4️⃣ Run the project
-
-Start the application:
+```bash
+# Start the backend server (development mode with nodemon)
+cd backend
 npm start
+```
 
+```bash
+# In a new terminal, start the main application
+npm start
+```
 
-For development mode:
-nodemon app.js
+---
 
-👨‍💻 Author
-
+## 👨‍💻 Author
 Pranav Patil
 GitHub: https://github.com/pranavpatildz
