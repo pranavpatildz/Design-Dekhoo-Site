@@ -1,3 +1,5 @@
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -24,7 +26,45 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// ... (rest of your existing middleware and routes) ...
+// Import API Routes
+const authRoutes = require('./backend/src/routes/auth');
+const catalogRoutes = require('./backend/src/routes/catalog');
+const categoryRoutes = require('./backend/src/routes/category');
+const dashboardRoutes = require('./backend/src/routes/dashboard');
+const uploadRoutes = require('./backend/src/routes/upload');
+
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/catalog', catalogRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/upload', uploadRoutes);
+
+// View Routes
+// Root route redirection
+app.get('/', (req, res) => {
+    res.redirect('/explore'); // Redirect to the main public catalog page
+});
+
+app.get('/explore', (req, res) => {
+    res.render('explore', { title: 'Explore Dekhoo' });
+});
+
+app.get('/login', (req, res) => {
+    res.render('login', { title: 'Login' });
+});
+
+app.get('/public-catalog', (req, res) => {
+    res.render('public-catalog', { title: 'Public Catalog' });
+});
+
+// The dashboard route to render the EJS view
+app.get('/shop-dashboard', (req, res) => {
+    // This route would typically require authentication middleware before rendering
+    // For now, assuming it's accessible or handled by client-side auth.
+    res.render('shop-dashboard', { title: 'Shop Dashboard' });
+});
+
 
 app.use(notFound);
 app.use(errorHandler);
