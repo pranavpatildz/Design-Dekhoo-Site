@@ -157,5 +157,5 @@ npm start
 ---
 
 ## Author
-Pranav Patil
+Pranav Patil: 
 https://github.com/pranavpatildz
