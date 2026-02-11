@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Owner Dashboard</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Shop Owner Dashboard | DesignDekhoo</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <!-- Font Awesome for icons, if needed. For now, using emojis or basic icons -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
 </head>
 <body class="dashboard-page">
 
@@ -12,35 +14,39 @@
         <!-- || SIDEBAR -->
         <aside class="dashboard-sidebar">
             <div class="sidebar-header">
-                <a href="/" class="logo">DesignDekhoo</a>
+                <a class="logo">DesignDekhoo</a>
             </div>
             <div class="shop-profile">
-                <div class="profile-avatar">S</div>
+                <div class="profile-avatar" id="sidebar-shop-initial"></div>
                 <div class="profile-info">
-                    <h4>My Artisan Shop</h4>
+                    <h4 id="sidebar-shop-name"></h4>
                     <p>Shop Owner</p>
                 </div>
             </div>
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" data-target="dashboard-home">
-                    <span class="nav-icon">📊</span> Dashboard
+                <a href="#" class="nav-item active" data-section="dashboard-home">
+                    <span class="nav-icon">📊</span> <span class="nav-text">Dashboard</span>
                 </a>
-                <a href="#" class="nav-item" data-target="add-catalog">
-                    <span class="nav-icon">➕</span> Add Catalog
+                <a href="#" class="nav-item" data-section="my-catalog">
+                    <span class="nav-icon">📦</span> <span class="nav-text">My Catalog</span>
                 </a>
-                <div class="nav-item has-submenu">
-                    <span class="nav-icon">🗂️</span> Categories
-                    <ul class="submenu">
-                        <li><a href="#" class="submenu-item" data-target="categories-bedroom">Bedroom</a></li>
-                        <li><a href="#" class="submenu-item" data-target="categories-living">Living Room</a></li>
-                        <li><a href="#" class="submenu-item" data-target="categories-kitchen">Kitchen</a></li>
-                        <li><a href="#" class="submenu-item" data-target="categories-office">Office</a></li>
-                        <li><a href="#" class="submenu-item" data-target="categories-custom">Custom Furniture</a></li>
-                    </ul>
-                </div>
+                <a href="#" class="nav-item" data-section="add-product">
+                    <span class="nav-icon">➕</span> <span class="nav-text">Add Product</span>
+                </a>
+                <a href="#" class="nav-item" data-section="categories-management">
+                    <span class="nav-icon">🏷️</span> <span class="nav-text">Categories</span>
+                </a>
+                <a href="#" class="nav-item" data-section="shop-profile-settings">
+                    <span class="nav-icon">⚙️</span> <span class="nav-text">Profile</span>
+                </a>
+                <a href="#" class="nav-item" id="share-catalog-btn-sidebar">
+                    <span class="nav-icon">🔗</span> <span class="nav-text">Share Catalog</span>
+                </a>
             </nav>
             <div class="sidebar-footer">
-                <a href="/login" class="nav-item"><span class="nav-icon">↩️</span> Logout</a>
+                <a href="#" class="nav-item logout-nav-item" id="sidebar-logout-btn">
+                    <span class="nav-icon">🚪</span> <span class="nav-text">Logout</span>
+                </a>
             </div>
         </aside>
 
@@ -48,108 +54,211 @@
         <main class="dashboard-main">
             <header class="dashboard-header">
                 <button class="sidebar-toggle-btn">☰</button>
-                <h1>Dashboard</h1>
+                <h1 id="dashboard-shop-name-header"></h1>
+                <div class="profile-actions">
+                    <div class="profile-avatar" id="navbar-profile-avatar"></div>
+                    <div class="profile-dropdown" id="profile-dropdown">
+                        <a href="#" id="profile-link">My Profile</a>
+                        <a href="/logout" id="logout-btn">Logout</a>
+                    </div>
+                </div>
             </header>
 
-            <!-- || DASHBOARD HOME SECTION -->
-            <section id="dashboard-home" class="dashboard-section active">
-                <div class="summary-cards">
-                    <div class="card">
-                        <h3>Total Products</h3>
-                        <p>125</p>
-                    </div>
-                    <div class="card">
-                        <h3>Total Orders</h3>
-                        <p>45</p>
-                    </div>
-                    <div class="card">
-                        <h3>Revenue</h3>
-                        <p>₹1,50,000</p>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <h3>Sales Overview (Placeholder)</h3>
-                    <div class="chart-placeholder"></div>
-                </div>
-            </section>
-
-            <!-- || ADD CATALOG SECTION -->
-            <section id="add-catalog" class="dashboard-section">
-                <h2>Add New Product</h2>
-                <form class="add-product-form">
-                    <div class="form-group">
-                        <label for="product-name">Product Name</label>
-                        <input type="text" id="product-name" placeholder="e.g., Classic Teak Chair">
-                    </div>
-                    <div class="form-group">
-                        <label for="product-category">Category</label>
-                        <select id="product-category">
-                            <option>Bedroom</option>
-                            <option>Living Room</option>
-                            <option>Kitchen</option>
-                            <option>Office</option>
-                            <option>Custom</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-description">Description</label>
-                        <textarea id="product-description" rows="4" placeholder="Describe your product..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-price">Price (₹)</label>
-                        <input type="number" id="product-price" placeholder="e.g., 12500">
-                    </div>
-                    <div class="form-group">
-                        <label>Product Images</label>
-                        <div class="image-upload-placeholder">
-                            <input type="file" multiple>
-                            <p>Drag & drop images here, or click to browse.</p>
+            <div class="dashboard-content">
+                <!-- DASHBOARD HOME SECTION -->
+                <section id="dashboard-home" class="dashboard-section active">
+                    <h2>Dashboard Overview</h2>
+                    <div class="summary-cards">
+                        <div class="card">
+                            <h3>Total Products</h3>
+                            <p id="total-products-count">0</p>
+                        </div>
+                        <div class="card">
+                            <h3>Total Categories</h3>
+                            <p id="total-categories-count">0</p>
+                        </div>
+                        <div class="card">
+                            <h3>Public Views</h3>
+                            <p>0</p>
                         </div>
                     </div>
-                    <button type="submit" class="btn-submit">Add Product</button>
-                </form>
-            </section>
+                    <div class="chart-container">
+                        <h3>Product Views (Placeholder)</h3>
+                        <div class="chart-placeholder">Graph goes here...</div>
+                    </div>
+                </section>
 
-            <!-- || CATEGORY SECTIONS (Example: Bedroom) -->
-            <section id="categories-bedroom" class="dashboard-section">
-                <h2>Bedroom Furniture</h2>
-                <div class="product-grid">
-                    <!-- Placeholder product cards -->
-                    <div class="product-card-dash">
-                        <img src="/images/bedroom.jpg" alt="Bedroom Product">
-                        <div class="product-info-dash">
-                            <h4>Modern Bed Frame</h4>
-                            <p>₹25,000</p>
+                <!-- MY CATALOG SECTION -->
+                <section id="my-catalog" class="dashboard-section">
+                    <h2>My Catalog</h2>
+                    <div class="catalog-filters">
+                        <div class="custom-select-wrapper" id="catalog-category-filter">
+                            <div class="custom-select-trigger">
+                                <span class="selected-category">All Categories</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+                                <span class="custom-option selected" data-value="">All Categories</span>
+                                <span class="custom-option" data-value="Sofa">Sofa</span>
+                                <span class="custom-option" data-value="Chair">Chair</span>
+                                <span class="custom-option" data-value="Table">Table</span>
+                                <span class="custom-option" data-value="Bed">Bed</span>
+                                <span class="custom-option" data-value="Wardrobe">Wardrobe</span>
+                                <span class="custom-option" data-value="Dining">Dining</span>
+                                <span class="custom-option" data-value="Office Furniture">Office Furniture</span>
+                                <span class="custom-option" data-value="Outdoor">Outdoor</span>
+                                <span class="custom-option" data-value="Storage">Storage</span>
+                                <span class="custom-option" data-value="Home Decor">Home Decor</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" data-section="add-product">Add New Product</button>
+                    </div>
+                    <div class="product-grid" id="my-catalog-product-grid">
+                        <!-- Dynamic product cards will be loaded here -->
+                        <div class="product-card-dash">
+                            <img src="/images/placeholder.jpg" alt="Product Name">
+                            <div class="product-info-dash">
+                                <h4>Sample Product</h4>
+                                <p>Category: Bedroom</p>
+                                <p>Material: Wood</p>
+                            </div>
+                            <div class="product-actions-dash">
+                                <button class="btn-secondary">Edit</button>
+                                <button class="btn-danger">Delete</button>
+                            </div>
                         </div>
                     </div>
-                    <!-- Add more product cards as needed -->
-                </div>
-            </section>
-             <section id="categories-living" class="dashboard-section">
-                <h2>Living Room Furniture</h2>
-                <div class="product-grid">
-                    <!-- Placeholder product cards -->
-                </div>
-            </section>
-             <section id="categories-kitchen" class="dashboard-section">
-                <h2>Kitchen Furniture</h2>
-                <div class="product-grid">
-                    <!-- Placeholder product cards -->
-                </div>
-            </section>
-             <section id="categories-office" class="dashboard-section">
-                <h2>Office Furniture</h2>
-                <div class="product-grid">
-                    <!-- Placeholder product cards -->
-                </div>
-            </section>
-             <section id="categories-custom" class="dashboard-section">
-                <h2>Custom Furniture</h2>
-                <div class="product-grid">
-                    <!-- Placeholder product cards -->
-                </div>
-            </section>
+                </section>
+
+                <!-- ADD PRODUCT SECTION -->
+                <section id="add-product" class="dashboard-section">
+                    <h2>Add New Product</h2>
+                    <form class="add-product-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" name="title" placeholder="e.g., Elegant Sofa Set" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-category">Category</label>
+                            <select id="product-category" name="category" required>
+                                <option value="">Select a Category</option>
+                                <!-- Dynamic categories will be loaded here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-material">Material</label>
+                            <input type="text" id="product-material" name="material" placeholder="e.g., Teak Wood, Leather" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-description">Description (Optional)</label>
+                            <textarea id="product-description" name="description" rows="4" placeholder="Briefly describe your product..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-notes">Notes (Optional)</label>
+                            <textarea id="product-notes" name="notes" rows="3" placeholder="Any special notes or dimensions..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Product Images</label>
+                            <div class="image-upload-placeholder">
+                                <input type="file" id="product-images" name="images" multiple accept="image/*" required>
+                                <p>Drag & drop images here, or click to browse (Max 5 images)</p>
+                            </div>
+                            <div id="image-preview" class="image-preview-container"></div>
+                        </div>
+                        <button type="submit" class="btn-submit">Add Product</button>
+                    </form>
+                </section>
+
+                <!-- CATEGORIES MANAGEMENT SECTION -->
+                <section id="categories-management" class="dashboard-section">
+                    <h2>Manage Categories</h2>
+                    <div class="add-category-form-container">
+                        <input type="text" id="new-category-name" placeholder="New Custom Category Name">
+                        <button class="btn-primary" id="add-category-btn">Add Category</button>
+                    </div>
+                    <div class="category-list-container">
+                        <h3>Your Categories</h3>
+                        <ul id="category-list" class="category-list">
+                            <!-- Dynamic categories will be loaded here -->
+                            <li class="category-item">
+                                <span>Bedroom</span>
+                                <div class="category-actions">
+                                    <button class="btn-secondary btn-edit">Edit</button>
+                                    <button class="btn-danger btn-delete">Delete</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- SHOP PROFILE SETTINGS SECTION -->
+                <section id="shop-profile-settings" class="dashboard-section">
+                    <h2>Shop Profile Settings</h2>
+                    <form class="shop-profile-form" id="shop-profile-form">
+                        <div class="form-group">
+                            <label for="shop-name">Shop Name</label>
+                            <input type="text" id="shop-name" name="shopName" value="<%= user?.shopName || '' %>" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="owner-name">Owner Name</label>
+                            <input type="text" id="owner-name" name="name" value="<%= user?.name || '' %>" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="shop-phone">Phone Number</label>
+                            <input type="tel" id="shop-phone" name="phone" value="<%= user?.phone || '' %>" placeholder="e.g., +91 9876543210" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="shop-email">Email</label>
+                            <input type="email" id="shop-email" name="email" value="<%= user?.email || '' %>" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="shop-address">Address</label>
+                            <textarea id="shop-address" name="address" rows="3" placeholder="Shop Address" disabled><%= user?.address || '' %></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="google-maps-link">Google Maps Link</label>
+                            <input type="url" id="google-maps-link" name="googleMapsLink" value="<%= user?.googleMapsLink || '' %>" placeholder="e.g., https://goo.gl/maps/..." disabled>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="edit-profile-btn" class="btn-secondary">Edit Profile</button>
+                            <button type="submit" id="save-profile-btn" class="btn-submit" style="display: none;">Save Changes</button>
+                        </div>
+                    </form>
+                    <div id="profile-message" class="message" style="display: none;"></div>
+                </section>
+            </div>
         </main>
+    </div>
+
+    <!-- SHARE CATALOG MODAL -->
+    <div class="modal-overlay" id="share-catalog-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+            <h3>Share Your Catalog</h3>
+            <p>Share this link with your customers to showcase your furniture collection.</p>
+            <div class="share-link-container">
+                <input type="text" id="public-catalog-link" value="https://designdekhoo.com/catalog/your-shop-id" readonly>
+                <button id="copy-catalog-link-btn">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGOUT CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="logout-confirm-modal">
+        <div class="modal-content logout-modal">
+            <button class="modal-close-btn" id="logout-modal-close-btn">&times;</button>
+            <h3>Heading out already?</h3>
+            <p>Your showroom will be right here when you return.</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" id="stay-designing-btn">Stay & Continue Designing</button>
+                <button class="btn-danger" id="yes-take-me-home-btn">Yes, Take Me Home</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message Popup -->
+    <div id="copy-success-message" class="success-message">
+        Link copied to clipboard!
     </div>
 
     <script src="/js/dashboard.js" defer></script>

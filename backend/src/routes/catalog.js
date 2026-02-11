@@ -8,10 +8,10 @@ const {
   getFurniture, 
   getShopOwnerFurniture, 
   getFurnitureById, 
-  updateFurniture, 
-  deleteFurniture 
-} = require('../controllers/catalogController');
-
+    updateFurniture,
+    deleteFurniture,
+    getPublicShopCatalog
+  } = require('../controllers/catalogController');
 // @route   GET api/catalog
 // @desc    Get all furniture with optional filters
 // @access  Public
@@ -21,6 +21,11 @@ router.get('/', getFurniture);
 // @desc    Get all furniture belonging to the authenticated shop owner
 // @access  Private
 router.get('/my-products', auth, getShopOwnerFurniture);
+
+// @route   GET api/catalog/:shopId (Public Catalog View)
+// @desc    Get all furniture for a specific shop owner by their ID (public)
+// @access  Public
+router.get('/:shopId', getPublicShopCatalog);
 
 // @route   GET api/catalog/:id
 // @desc    Get a single furniture item by ID
@@ -39,7 +44,7 @@ router.post(
     [
       check('category', 'Category is required').not().isEmpty(),
       check('title', 'Title is required').not().isEmpty(),
-      check('material', 'Material is required').not().isEmpty(),
+      check('material', 'Material is required').optional().not().isEmpty(),
       check('price', 'Please enter a valid price').isNumeric(),
     ],
   ],

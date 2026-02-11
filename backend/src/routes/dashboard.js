@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
+const authController = require('../controllers/authController'); // Import authController
 
 // @route   GET api/dashboard
 // @desc    Test protected route
@@ -13,5 +14,10 @@ router.get('/', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+// @route   POST api/dashboard/profile/update
+// @desc    Update shop owner profile
+// @access  Private
+router.post('/profile/update', auth, authController.updateShopProfile);
 
 module.exports = router;

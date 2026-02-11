@@ -27,6 +27,18 @@ const ShopOwnerSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  phone: {
+    type: String,
+    trim: true,
+  },
+  address: {
+    type: String,
+    trim: true,
+  },
+  googleMapsLink: {
+    type: String,
+    trim: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

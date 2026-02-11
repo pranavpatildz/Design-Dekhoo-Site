@@ -33,4 +33,11 @@ router.post(
   authController.login
 );
 
+const auth = require('../middleware/auth'); // Import auth middleware
+
+// @route   GET api/auth/me
+// @desc    Get current shop owner's profile
+// @access  Private
+router.get('/me', auth, authController.getShopOwnerProfile);
+
 module.exports = router;
