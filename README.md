@@ -60,28 +60,31 @@ There are no orders, payments, carts, or pricing logic.
 
 ## 📁 Project Structure
 
+```text
 design-dekhoo/
 │
 ├── backend/
-│ └── src/
-│ ├── config/
-│ ├── controllers/
-│ ├── middleware/
-│ ├── models/
-│ └── routes/
+│   └── src/
+│       ├── config/
+│       ├── controllers/
+│       ├── middleware/
+│       ├── models/
+│       └── routes/
 │
 ├── views/
-│ ├── dashboard/
-│ ├── explore/
-│ └── public-catalog.ejs
+│   ├── dashboard/
+│   ├── explore/
+│   └── public-catalog.ejs
 │
 ├── public/
-│ ├── css/
-│ └── js/
+│   ├── css/
+│   └── js/
 │
 ├── .gitignore
 ├── README.md
-└── package.json
+├── package.json
+└── app.js
+
 
 
 ---
@@ -103,7 +106,7 @@ Install backend dependencies:
 cd backend
 npm install
 
-###3️⃣ Environment Variables
+### 3️⃣ Environment Variables
 
 Create a .env file in the root and backend folder and add:
 
