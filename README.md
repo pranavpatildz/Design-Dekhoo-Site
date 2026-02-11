@@ -142,6 +142,20 @@ npm start
 
 ---
 
-## 👨‍💻 Author
-Pranav Patil
-GitHub: https://github.com/pranavpatildz
+## Security Notes
+
+-   **Environment Variables**: Sensitive information such as API keys and database credentials are managed using `.env` files and are excluded from version control via `.gitignore`.
+-   **Authentication**: JSON Web Tokens (JWT) are employed for authenticating shop owners, securing dashboard access, and managing user sessions.
+
+---
+
+## Project Status
+
+-   **Dashboard features**: In Progress 🚧
+-   **Explore page**: In Progress 🔍
+
+---
+
+## Author
+
+DesignDekhoo Project Team
