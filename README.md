@@ -157,5 +157,5 @@ npm start
 ---
 
 ## Author
-
-DesignDekhoo Project Team
+Pranav Patil
+https://github.com/pranavpatildz
