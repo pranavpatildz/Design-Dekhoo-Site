@@ -1,23 +1,19 @@
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-require('dotenv').config();
+const cloudinary = require("cloudinary").v2;
+const multerStorageCloudinary = require("multer-storage-cloudinary");
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
 });
 
-const storage = new CloudinaryStorage({
+const storage = multerStorageCloudinary({
   cloudinary: cloudinary,
-  params: {
-    folder: 'design-dekhoo',
-    format: async (req, file) => 'png', // supports promises as well
-    public_id: (req, file) => {
-      const originalname = file.originalname.split('.')[0];
-      return `${originalname}-${Date.now()}-${Math.round(Math.random() * 1E9)}`;
-    },
-  },
+  folder: "design-dekhoo",
+  allowedFormats: ["jpg", "png", "jpeg"],
 });
 
-module.exports = { cloudinary, storage };
+module.exports = {
+  cloudinary,
+  storage,
+};

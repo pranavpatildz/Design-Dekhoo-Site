@@ -13,59 +13,78 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 // console.log('JWT_SECRET loaded:', process.env.JWT_SECRET ? 'YES' : 'NO'); // Verify JWT_SECRET - Removed
 // connectDB(); // Removed direct synchronous call
 
+// Declare app and PORT globally
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Set up view engine and views directory - MUST be before any routes or middleware that renders views
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Body parsing middleware - Must be before routes that need to parse body
+app.use(express.json()); // For parsing application/json
+app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
+// Apply security headers
 app.use(helmet());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+
+// Cookie parsing middleware
 app.use(cookieParser());
 
-// Import API Routes
+// Serve static files from the 'public' directory - After body parsers
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Import Routes
 const authRoutes = require('./backend/src/routes/auth');
 const catalogRoutes = require('./backend/src/routes/catalog');
 const categoryRoutes = require('./backend/src/routes/category');
-const dashboardRoutes = require('./backend/src/routes/dashboard');
+const dashboardApiRoutes = require('./backend/src/routes/dashboard'); // Renamed for clarity: it's an API router
 const uploadRoutes = require('./backend/src/routes/upload');
 
-// API Routes
+// === API Routes ===
+// Mount API routes under the /api prefix
 app.use('/api/auth', authRoutes);
 app.use('/api/catalog', catalogRoutes);
 app.use('/api/categories', categoryRoutes);
-app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/dashboard', dashboardApiRoutes);
 app.use('/api/upload', uploadRoutes);
 
-// View Routes
-// Root route redirection
+// === View Routes ===
+// Define routes that render EJS templates
+// Root route renders the home page
 app.get('/', (req, res) => {
-    res.redirect('/explore'); // Redirect to the main public catalog page
+    res.render('home', { title: 'DesignDekhoo Home' });
 });
 
+// Explore page
 app.get('/explore', (req, res) => {
     res.render('explore', { title: 'Explore Dekhoo' });
 });
 
+// Login page
 app.get('/login', (req, res) => {
     res.render('login', { title: 'Login' });
 });
 
+// Public Catalog page
 app.get('/public-catalog', (req, res) => {
     res.render('public-catalog', { title: 'Public Catalog' });
 });
 
-// The dashboard route to render the EJS view
+// Shop Dashboard page
 app.get('/shop-dashboard', (req, res) => {
     // This route would typically require authentication middleware before rendering
     // For now, assuming it's accessible or handled by client-side auth.
-    res.render('shop-dashboard', { title: 'Shop Dashboard' });
+    // Temporary fallback user object if no authentication middleware is present
+    const user = {
+        shopName: "DesignDekhoo Store",
+        name: "Owner Demo" // Changed ownerName to name as per ejs file usage
+    };
+    res.render('shop-dashboard', { title: 'Shop Dashboard', user });
 });
 
-
+// === Error Handling Middleware ===
+// These should always be the last middleware functions added to the app.
 app.use(notFound);
 app.use(errorHandler);
 
