@@ -219,7 +219,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
+                credentials: 'include' // IMPORTANT: Include cookies with the request
             });
 
             if (!response.ok) {
@@ -367,7 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formDataObject)
+                    body: JSON.stringify(formDataObject),
+                    credentials: 'include' // IMPORTANT: Include cookies with the request
                 });
 
                 const data = await response.json();

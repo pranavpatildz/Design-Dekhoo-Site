@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');
 
 exports.jwtAuth = function (req, res, next) {
-  // Get token from header
-  const token = req.header('x-auth-token');
+  console.log("Protect middleware: req.cookies", req.cookies); // Debug log
+
+  // Get token from cookie
+  const token = req.cookies.token; // Read token from httpOnly cookie
+  console.log("Protect middleware: Token from cookie:", token); // Debug log
 
   // Check if no token
   if (!token) {
@@ -15,6 +18,7 @@ exports.jwtAuth = function (req, res, next) {
     req.shopOwner = decoded.shopOwner;
     next();
   } catch (err) {
+    console.error("Protect middleware: JWT verification error:", err.message); // Debug log
     res.status(401).json({ msg: 'Token is not valid' });
   }
 };

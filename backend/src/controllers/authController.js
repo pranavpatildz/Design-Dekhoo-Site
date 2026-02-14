@@ -78,7 +78,24 @@ exports.login = async (req, res) => {
       profileImage: shopOwner.profileImage, // Ensure profileImage is included if it exists in the model
     };
 
-    res.redirect('/shop-dashboard');
+    // Generate JWT
+    const token = jwt.sign({ id: shopOwner.id }, process.env.JWT_SECRET, {
+        expiresIn: "7d"
+    });
+
+    // Set cookie
+    console.log("Setting token cookie"); // Debug log
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: false,        // since running on localhost
+        sameSite: "lax",
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
+    return res.status(200).json({
+        message: "Login successful"
+    });
   } catch (err) {
     console.error('Login error:', err.message);
     res.status(500).send('Server error');
