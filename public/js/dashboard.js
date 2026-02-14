@@ -55,16 +55,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutModalCloseBtn = document.getElementById('logout-modal-close-btn');
     const stayDesigningBtn = document.getElementById('stay-designing-btn');
     const yesTakeMeHomeBtn = document.getElementById('yes-take-me-home-btn');
-    const designDekhooLogo = document.querySelector('.sidebar-header .logo'); // The DesignDekhoo logo
+    const logoutFormDropdown = document.getElementById('logout-form-dropdown'); // The new logout form
+    const sidebarLogoutForm = document.getElementById('sidebar-logout-form'); // The new sidebar logout form
 
+
+    // Function to show/hide logout modal
     function showLogoutModal() {
-        logoutConfirmModal.classList.add('show');
-        document.body.classList.add('modal-open');
+        if (logoutConfirmModal) {
+            logoutConfirmModal.classList.add('show');
+            document.body.classList.add('modal-open');
+        }
     }
 
     function hideLogoutModal() {
-        logoutConfirmModal.classList.remove('show');
-        document.body.classList.remove('modal-open');
+        if (logoutConfirmModal) {
+            logoutConfirmModal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
     }
 
     // Event listeners for the logout confirmation modal
@@ -74,28 +81,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (stayDesigningBtn) {
         stayDesigningBtn.addEventListener('click', hideLogoutModal);
     }
-    if (yesTakeMeHomeBtn) {
+    if (yesTakeMeHomeBtn && logoutFormDropdown) {
         yesTakeMeHomeBtn.addEventListener('click', () => {
-            window.location.href = '/logout'; // Redirect to logout route
+            logoutFormDropdown.submit(); // Submit the form
         });
     }
 
-    // Modify logo click behavior to show logout modal
-    if (designDekhooLogo) {
-        designDekhooLogo.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default navigation
+    // Handle clicks on elements that should open the logout modal
+    const logoutTriggers = document.querySelectorAll('[data-modal-target="logout-confirm-modal"]');
+    logoutTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
             showLogoutModal();
         });
-    }
-
-    // Handle the new sidebar logout button
-    const sidebarLogoutBtn = document.getElementById('sidebar-logout-btn');
-    if (sidebarLogoutBtn) {
-        sidebarLogoutBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default navigation
-            showLogoutModal();
-        });
-    }
+    });
 
     // --- SHARE CATALOG MODAL BEHAVIOR ---
     const shareCatalogModal = document.getElementById('share-catalog-modal');
@@ -208,12 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!myCatalogProductGrid) return;
         myCatalogProductGrid.innerHTML = '<p class="loading-msg">Loading products...</p>'; // Show loading message
 
-        const token = localStorage.getItem('token'); // Assuming JWT token is stored here
-        if (!token) {
-            myCatalogProductGrid.innerHTML = '<p class="error-msg">Please log in to view your catalog.</p>';
-            return;
-        }
-
+        // Assuming session-based auth, no token is needed for this fetch
+        // The backend will check for session
         let url = `/api/catalog/my-products`; // Changed to relative path
         if (category) {
             url += `?category=${encodeURIComponent(category)}`;
@@ -224,12 +219,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-auth-token': token
                 }
             });
 
             if (!response.ok) {
-                // Handle 401 specifically if token is invalid/expired
+                // Handle 401 specifically if session is invalid/expired
                 if (response.status === 401) {
                     throw new Error('Unauthorized: Please log in again.');
                 }
@@ -303,17 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Embed shopOwnerId for client-side use from EJS
-    // This part is now handled server-side in root app.js rendering
-    // const currentShopOwnerId = "<%- shopOwner._id %>"; // This is only available if passed to EJS
-    // const backendApiUrl = "http://localhost:8000"; // Explicitly target the backend API port (defined in root app.js)
-
-    // Helper to get JWT token (assuming it's in localStorage after client-side login)
-    // Note: Best practice is for client-side JS not to access httpOnly cookies.
-    // If backend login sets httpOnly cookie, client-side AJAX needs another way to auth.
-    // For this task, we will assume localStorage for client-side AJAX calls.
-    const getAuthToken = () => localStorage.getItem('token');
-
+    // Make currentUser available from EJS
+    // This assumes `user` object is passed to the EJS template and can be accessed
+    // <script> window.currentUser = <%- JSON.stringify(user) %>; </script>
+    // This is required for the share catalog link generation
+    // I need to add this line in shop-dashboard.ejs within a <script> tag:
+    // <script> window.currentUser = <%- JSON.stringify(user) %>; </script>
 
     // --- SHOP PROFILE SETTINGS SECTION ---
     const shopProfileForm = document.getElementById('shop-profile-form');
@@ -366,14 +355,6 @@ document.addEventListener('DOMContentLoaded', () => {
         shopProfileForm.addEventListener('submit', async (e) => {
             e.preventDefault(); // Prevent default form submission
 
-            const token = getAuthToken();
-            if (!token) {
-                showProfileMessage('Authentication token missing. Please log in again.', true);
-                // Optionally redirect to login page
-                // window.location.href = '/login';
-                return;
-            }
-
             const formData = new FormData(shopProfileForm);
             const formDataObject = {};
             formData.forEach((value, key) => {
@@ -385,7 +366,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'x-auth-token': token
                     },
                     body: JSON.stringify(formDataObject)
                 });

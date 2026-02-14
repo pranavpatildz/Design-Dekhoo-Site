@@ -1,0 +1,88 @@
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal Card */
+.modal-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal-overlay.show .modal-card {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Success Icon */
+.modal-icon {
+    font-size: 4rem;
+    color: #28a745; /* Green color for success */
+    margin-bottom: 20px;
+    line-height: 1; /* Adjust line height for better vertical alignment */
+}
+
+/* Modal Title */
+.modal-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Modal Message */
+.modal-message {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Modal Button */
+.modal-button {
+    background-color: #007bff; /* Blue for primary action */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-button:hover {
+    background-color: #0056b3;
+}
+
+/* Specific styling for the Go to Login button */
+.modal-button.go-to-login {
+    background-color: #2d2d2d; /* Using your button-bg color */
+}
+
+.modal-button.go-to-login:hover {
+    background-color: #4f4f4f; /* Using your button-hover-bg color */
+}

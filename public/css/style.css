@@ -893,6 +893,33 @@ a {
     box-shadow: 0 0 0 2px rgba(45, 45, 45, 0.2);
 }
 
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 2.5rem; /* Make space for the icon */
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.eye-icon::before {
+    content: "🔒"; /* Closed eye icon */
+}
+
+.eye-icon.visible::before {
+    content: "🔓"; /* Open eye icon */
+}
+
 .form-options {
     text-align: right;
     margin-bottom: 1.5rem;

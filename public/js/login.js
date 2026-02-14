@@ -1,21 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.tab-link');
-    const forms = document.querySelectorAll('.form-content');
+    const eyeIcons = document.querySelectorAll('.eye-icon');
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const target = tab.getAttribute('data-tab');
-
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            forms.forEach(form => {
-                if (form.id === `${target}-form`) {
-                    form.classList.add('active');
-                } else {
-                    form.classList.remove('active');
-                }
-            });
+    eyeIcons.forEach(icon => {
+        icon.addEventListener('click', () => {
+            const passwordInput = document.getElementById(icon.dataset.target);
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.add('visible');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('visible');
+            }
         });
     });
 });

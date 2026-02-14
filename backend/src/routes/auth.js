@@ -13,10 +13,14 @@ router.post(
     check('email', 'Please include a valid email').isEmail(),
     check(
       'password',
-      'Please enter a password with 6 or more characters'
-    ).isLength({ min: 6 }),
+      'Please enter a password with 4 or more characters'
+    ).isLength({ min: 4 }),
     check('shopName', 'Please add a shop name').not().isEmpty(),
     check('city', 'Please add a city').not().isEmpty(),
+    check('mobileNumber', 'Please include a valid 10-digit mobile number')
+      .isString()
+      .isLength({ min: 10, max: 10 })
+      .matches(/^\d{10}$/),
   ],
   authController.signup
 );
@@ -33,11 +37,33 @@ router.post(
   authController.login
 );
 
-const auth = require('../middleware/auth'); // Import auth middleware
+// @route   POST api/auth/forgot-password
+// @desc    Request password reset link
+// @access  Public
+router.post(
+  '/forgot-password',
+  [
+    check('email', 'Please include a valid email').isEmail(),
+  ],
+  authController.forgotPassword
+);
+
+// @route   POST api/auth/reset-password/:token
+// @desc    Reset password with token
+// @access  Public
+router.post(
+  '/reset-password/:token',
+  [
+    check('password', 'Please enter a password with 4 or more characters').isLength({ min: 4 }),
+  ],
+  authController.resetPassword
+);
+
+const { jwtAuth } = require('../middleware/auth'); // Import jwtAuth middleware
 
 // @route   GET api/auth/me
 // @desc    Get current shop owner's profile
 // @access  Private
-router.get('/me', auth, authController.getShopOwnerProfile);
+router.get('/me', jwtAuth, authController.getShopOwnerProfile);
 
 module.exports = router;

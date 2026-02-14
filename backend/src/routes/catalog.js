@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const auth = require('../middleware/auth');
+const { jwtAuth } = require('../middleware/auth'); // Import jwtAuth middleware
 const upload = require('../middleware/multer');
 const { 
   addFurniture, 
@@ -20,7 +20,7 @@ router.get('/', getFurniture);
 // @route   GET api/catalog/my-products
 // @desc    Get all furniture belonging to the authenticated shop owner
 // @access  Private
-router.get('/my-products', auth, getShopOwnerFurniture);
+router.get('/my-products', jwtAuth, getShopOwnerFurniture);
 
 // @route   GET api/catalog/:shopId (Public Catalog View)
 // @desc    Get all furniture for a specific shop owner by their ID (public)
@@ -30,7 +30,7 @@ router.get('/:shopId', getPublicShopCatalog);
 // @route   GET api/catalog/:id
 // @desc    Get a single furniture item by ID
 // @access  Private (only owner can view their own)
-router.get('/:id', auth, getFurnitureById);
+router.get('/:id', jwtAuth, getFurnitureById);
 
 
 // @route   POST api/catalog/add
@@ -39,7 +39,7 @@ router.get('/:id', auth, getFurnitureById);
 router.post(
   '/add',
   [
-    auth,
+    jwtAuth,
     upload.array('images', 5), // 'images' is the field name, 5 is the max number of files
     [
       check('category', 'Category is required').not().isEmpty(),
@@ -57,7 +57,7 @@ router.post(
 router.put(
   '/:id',
   [
-    auth,
+    jwtAuth,
     upload.array('images', 5), // Allow image updates, optional
     [
       check('category', 'Category is required').optional().not().isEmpty(),
@@ -72,7 +72,7 @@ router.put(
 // @route   DELETE api/catalog/:id
 // @desc    Delete a furniture item by ID
 // @access  Private (only owner can delete their own)
-router.delete('/:id', auth, deleteFurniture);
+router.delete('/:id', jwtAuth, deleteFurniture);
 
 
 module.exports = router;

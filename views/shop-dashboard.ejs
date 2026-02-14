@@ -14,7 +14,7 @@
         <!-- || SIDEBAR -->
         <aside class="dashboard-sidebar">
             <div class="sidebar-header">
-                <a class="logo">DesignDekhoo</a>
+                <a class="logo" data-modal-target="logout-confirm-modal">DesignDekhoo</a>
             </div>
             <div class="shop-profile">
                 <div class="profile-avatar" id="sidebar-shop-initial"></div>
@@ -44,9 +44,11 @@
                 </a>
             </nav>
             <div class="sidebar-footer">
-                <a href="#" class="nav-item logout-nav-item" id="sidebar-logout-btn">
-                    <span class="nav-icon">🚪</span> <span class="nav-text">Logout</span>
-                </a>
+                <form action="/api/auth/logout" method="POST" id="sidebar-logout-form">
+                    <button type="submit" class="nav-item logout-nav-item" id="sidebar-logout-btn" data-modal-target="logout-confirm-modal">
+                        <span class="nav-icon">🚪</span> <span class="nav-text">Logout</span>
+                    </button>
+                </form>
             </div>
         </aside>
 
@@ -59,7 +61,9 @@
                     <div class="profile-avatar" id="navbar-profile-avatar"></div>
                     <div class="profile-dropdown" id="profile-dropdown">
                         <a href="#" id="profile-link">My Profile</a>
-                        <a href="/logout" id="logout-btn">Logout</a>
+                        <form action="/api/auth/logout" method="POST" id="logout-form-dropdown">
+                            <button type="submit" class="dropdown-item">Logout</button>
+                        </form>
                     </div>
                 </div>
             </header>
@@ -261,6 +265,9 @@
         Link copied to clipboard!
     </div>
 
+    <script>
+        window.currentUser = <%- JSON.stringify(user) %>;
+    </script>
     <script src="/js/dashboard.js" defer></script>
 </body>
 </html>

@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
+<%
+  const currentActiveTab = typeof activeTab === 'undefined' ? 'login' : activeTab;
+%>
+
 <body class="login-page">
 
     <div class="login-container">
@@ -21,39 +26,57 @@
                 </div>
 
                 <div class="form-tabs">
-                    <button class="tab-link active" data-tab="login">Login</button>
-                    <button class="tab-link" data-tab="signup">Sign Up</button>
+                    <a href="/login" class="tab-link <%= currentActiveTab === 'login' ? 'active' : '' %>" data-tab="login">Login</a>
+                    <a href="/signup" class="tab-link <%= currentActiveTab === 'signup' ? 'active' : '' %>" data-tab="signup">Sign Up</a>
                 </div>
 
                 <!-- Login Form -->
-                <form id="login-form" class="form-content active" action="/shop-dashboard" method="GET">
+                <form id="login-form" class="form-content <%= currentActiveTab === 'login' ? 'active' : '' %>" action="/api/auth/login" method="POST">
                     <div class="form-group">
                         <label for="login-email">Email Address</label>
                         <input type="email" id="login-email" name="email" placeholder="you@example.com" required>
                     </div>
                     <div class="form-group">
                         <label for="login-password">Password</label>
-                        <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                            <span class="eye-icon" data-target="login-password"></span>
+                        </div>
                     </div>
                     <div class="form-options">
-                        <a href="#" class="forgot-password">Forgot Password?</a>
+                        <a href="/forgot-password" class="forgot-password">Forgot Password?</a>
                     </div>
                     <button type="submit" class="btn-submit">Login</button>
                 </form>
 
                 <!-- Signup Form -->
-                <form id="signup-form" class="form-content" action="/shop-dashboard" method="GET">
+                <form id="signup-form" class="form-content <%= currentActiveTab === 'signup' ? 'active' : '' %>" action="/api/auth/signup" method="POST">
+                    <div class="form-group">
+                        <label for="signup-name">Your Name</label>
+                        <input type="text" id="signup-name" name="name" placeholder="Your Name" required>
+                    </div>
                     <div class="form-group">
                         <label for="shop-name">Shop Name</label>
-                        <input type="text" id="shop-name" name="shop-name" placeholder="Your Artisan Shop" required>
+                        <input type="text" id="shop-name" name="shopName" placeholder="Your Artisan Shop" required>
                     </div>
                     <div class="form-group">
                         <label for="signup-email">Email Address</label>
                         <input type="email" id="signup-email" name="email" placeholder="you@example.com" required>
                     </div>
                     <div class="form-group">
+                        <label for="signup-mobile">Mobile Number</label>
+                        <input type="tel" id="signup-mobile" name="mobileNumber" pattern="[0-9]{10}" placeholder="e.g., 1234567890" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-city">City</label>
+                        <input type="text" id="signup-city" name="city" placeholder="Your City" required>
+                    </div>
+                    <div class="form-group">
                         <label for="signup-password">Create Password</label>
-                        <input type="password" id="signup-password" name="password" placeholder="••••••••" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="signup-password" name="password" placeholder="••••••••" required>
+                            <span class="eye-icon" data-target="signup-password"></span>
+                        </div>
                     </div>
                     <button type="submit" class="btn-submit">Create Account</button>
                 </form>
@@ -62,5 +85,43 @@
     </div>
 
     <script src="/js/login.js" defer></script>
+
+    <!-- Signup Success Modal -->
+    <div id="signupSuccessModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-icon">🎉</div>
+            <h3 class="modal-title">Account Created Successfully!</h3>
+            <p class="modal-message">You can now login to access your dashboard.</p>
+            <button class="modal-button go-to-login" id="goToLoginBtn">Go to Login</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const signupSuccess = urlParams.get('signup');
+            const modal = document.getElementById('signupSuccessModal');
+            const goToLoginBtn = document.getElementById('goToLoginBtn');
+
+            function closeModal() {
+                modal.classList.remove('show');
+                // Remove the query parameter from the URL without reloading the page
+                history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            if (signupSuccess === 'success' && modal) {
+                modal.classList.add('show');
+
+                // Auto-close after 5 seconds
+                setTimeout(() => {
+                    closeModal();
+                }, 5000); // 5000 milliseconds = 5 seconds
+
+                if (goToLoginBtn) {
+                    goToLoginBtn.addEventListener('click', closeModal);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const auth = require('../middleware/auth');
+const { jwtAuth } = require('../middleware/auth'); // Import jwtAuth middleware
 const categoryController = require('../controllers/categoryController');
 
 // @route   POST /api/categories
@@ -10,7 +10,7 @@ const categoryController = require('../controllers/categoryController');
 router.post(
   '/',
   [
-    auth,
+    jwtAuth,
     [
       check('name', 'Category name is required').not().isEmpty(),
     ],
@@ -21,7 +21,7 @@ router.post(
 // @route   GET /api/categories
 // @desc    Get all categories for the authenticated shop owner
 // @access  Private
-router.get('/', auth, categoryController.getCategories);
+router.get('/', jwtAuth, categoryController.getCategories);
 
 // @route   PUT /api/categories/:id
 // @desc    Update a category by ID
@@ -29,7 +29,7 @@ router.get('/', auth, categoryController.getCategories);
 router.put(
     '/:id',
     [
-        auth,
+        jwtAuth,
         [
             check('name', 'Category name is required').not().isEmpty(),
         ],
@@ -40,6 +40,6 @@ router.put(
 // @route   DELETE /api/categories/:id
 // @desc    Delete a category by ID
 // @access  Private
-router.delete('/:id', auth, categoryController.deleteCategory);
+router.delete('/:id', jwtAuth, categoryController.deleteCategory);
 
 module.exports = router;

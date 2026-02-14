@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const { jwtAuth } = require('../middleware/auth'); // Import jwtAuth middleware
 const authController = require('../controllers/authController'); // Import authController
 
 // @route   GET api/dashboard
 // @desc    Test protected route
 // @access  Private
-router.get('/', auth, async (req, res) => {
+router.get('/', jwtAuth, async (req, res) => {
   try {
     res.json({ msg: 'Welcome to the protected dashboard!', shopOwner: req.shopOwner });
   } catch (err) {
@@ -18,6 +18,6 @@ router.get('/', auth, async (req, res) => {
 // @route   POST api/dashboard/profile/update
 // @desc    Update shop owner profile
 // @access  Private
-router.post('/profile/update', auth, authController.updateShopProfile);
+router.post('/profile/update', jwtAuth, authController.updateShopProfile);
 
 module.exports = router;

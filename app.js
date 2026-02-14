@@ -3,10 +3,14 @@ dns.setDefaultResultOrder('ipv4first');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const session = require('express-session'); // Require express-session
+const MongoStore = require('connect-mongo'); // Require connect-mongo
 const dotenv = require('dotenv');
 const helmet = require('helmet');
 const connectDB = require('./backend/src/config/database');
 const { notFound, errorHandler } = require('./backend/src/middleware/errorMiddleware');
+const { isAuthenticated } = require('./backend/src/middleware/auth'); // Import isAuthenticated
+const ShopOwner = require('./backend/src/models/ShopOwner'); // Import ShopOwner model
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 // console.log('DB Connection String:', process.env.MONGO_URI); // Debug MONGO_URI - Removed
@@ -30,6 +34,40 @@ app.use(helmet());
 
 // Cookie parsing middleware
 app.use(cookieParser());
+
+// Session middleware
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI,
+        collectionName: 'sessions',
+    }),
+    cookie: {
+        secure: false, // Set to false for local development over HTTP
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+// Explicit Logout route to ensure it's hit correctly
+app.post('/api/auth/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.status(500).json({ msg: 'Could not log out, please try again.' });
+        }
+        res.clearCookie('connect.sid'); // Clear session cookie
+        res.redirect('/'); // Redirect to homepage
+    });
+});
+
+// Set Cache-Control header to prevent caching of authenticated pages
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store');
+    next();
+});
 
 // Serve static files from the 'public' directory - After body parsers
 app.use(express.static(path.join(__dirname, 'public')));
@@ -63,7 +101,17 @@ app.get('/explore', (req, res) => {
 
 // Login page
 app.get('/login', (req, res) => {
-    res.render('login', { title: 'Login' });
+    res.render('login', { title: 'Login', activeTab: 'login' });
+});
+
+// Signup page (renders the same EJS file as login, as signup form is within it)
+app.get('/signup', (req, res) => {
+    res.render('login', { title: 'Sign Up', activeTab: 'signup' });
+});
+
+// Forgot Password page
+app.get('/forgot-password', (req, res) => {
+    res.render('forgot-password', { title: 'Forgot Password' });
 });
 
 // Public Catalog page
@@ -72,15 +120,30 @@ app.get('/public-catalog', (req, res) => {
 });
 
 // Shop Dashboard page
-app.get('/shop-dashboard', (req, res) => {
-    // This route would typically require authentication middleware before rendering
-    // For now, assuming it's accessible or handled by client-side auth.
-    // Temporary fallback user object if no authentication middleware is present
-    const user = {
-        shopName: "DesignDekhoo Store",
-        name: "Owner Demo" // Changed ownerName to name as per ejs file usage
-    };
-    res.render('shop-dashboard', { title: 'Shop Dashboard', user });
+app.get('/shop-dashboard', isAuthenticated, (req, res) => {
+    res.render('shop-dashboard', { title: 'Shop Dashboard', user: req.session.user });
+});
+
+// Reset Password page (with token validation)
+app.get('/reset-password/:token', async (req, res) => {
+    try {
+        const shopOwner = await ShopOwner.findOne({
+            resetToken: req.params.token,
+            resetTokenExpire: { $gt: Date.now() } // Token not expired
+        });
+
+        if (!shopOwner) {
+            // If token is invalid or expired, redirect to forgot password with an error
+            // For now, just redirect. In a real app, you might want to flash a message.
+            return res.redirect('/forgot-password');
+        }
+
+        // Render the reset password page, passing the token
+        res.render('reset-password', { title: 'Reset Password', token: req.params.token });
+    } catch (err) {
+        console.error('Error validating reset token:', err.message);
+        res.redirect('/forgot-password'); // Redirect on server error
+    }
 });
 
 // === Error Handling Middleware ===
