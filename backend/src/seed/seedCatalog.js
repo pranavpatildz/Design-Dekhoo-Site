@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
-require("dotenv").config(); // This auto loads .env from root
+const dotenv = require("dotenv"); // Import dotenv
+dotenv.config({ path: '../../.env' }); // Load .env from root
 
 const Furniture = require("../models/Furniture");
+const ShopOwner = require("../models/ShopOwner"); // Import ShopOwner model
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -42,9 +44,17 @@ async function seedCatalog() {
     await mongoose.connect(MONGO_URI);
     console.log("MongoDB connected successfully for seeding.");
 
-    // Clear old data
-    console.log("Clearing old furniture data...");
-    await Furniture.deleteMany({}); // Delete all furniture items
+    // Find the existing shop owner
+    const shopOwner = await ShopOwner.findOne({ shopName: "A1 Furniture" });
+
+    if (!shopOwner) {
+      console.error("❌ Shop owner 'A1 Furniture' not found. Please create this user first.");
+      process.exit(1); // Exit safely if user not found
+    }
+
+    // Clear old data ONLY for that shop
+    console.log(`Clearing old furniture data for shop: ${shopOwner.shopName} (${shopOwner._id})...`);
+    await Furniture.deleteMany({ shop: shopOwner._id });
     console.log("Old data cleared...");
 
     let products = [];
@@ -65,13 +75,13 @@ async function seedCatalog() {
         price,
         images: [
           `https://source.unsplash.com/600x400/?furniture,${category.toLowerCase()},${material.replace(/\s/g, '').toLowerCase()}`
-        ]
-        // shopOwnerId is optional, so not setting it for now in seed data
+        ],
+        shop: shopOwner._id // Link product to the found shop owner
       });
     }
 
     await Furniture.insertMany(products);
-    console.log(`Inserted ${products.length} furniture items.`);
+    console.log(`Inserted ${products.length} furniture items for shop: ${shopOwner.shopName}.`);
     console.log("Seeding completed successfully.");
 
   } catch (error) {
