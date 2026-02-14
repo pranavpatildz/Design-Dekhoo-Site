@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 const helmet = require('helmet');
 const connectDB = require('./backend/src/config/database');
 const { notFound, errorHandler } = require('./backend/src/middleware/errorMiddleware');
-const { isAuthenticated } = require('./backend/src/middleware/auth'); // Import isAuthenticated
+const { protect } = require('./backend/src/middleware/auth'); // Import protect
 const ShopOwner = require('./backend/src/models/ShopOwner'); // Import ShopOwner model
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
@@ -51,17 +51,7 @@ app.use(session({
     }
 }));
 
-// Explicit Logout route to ensure it's hit correctly
-app.post('/api/auth/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            console.error('Error destroying session:', err);
-            return res.status(500).json({ msg: 'Could not log out, please try again.' });
-        }
-        res.clearCookie('connect.sid'); // Clear session cookie
-        res.redirect('/'); // Redirect to homepage
-    });
-});
+
 
 // Set Cache-Control header to prevent caching of authenticated pages
 app.use((req, res, next) => {
@@ -120,8 +110,8 @@ app.get('/public-catalog', (req, res) => {
 });
 
 // Shop Dashboard page
-app.get('/shop-dashboard', isAuthenticated, (req, res) => {
-    res.render('shop-dashboard', { title: 'Shop Dashboard', user: req.session.user });
+app.get('/shop-dashboard', protect, (req, res) => {
+    res.render('shop-dashboard', { title: 'Shop Dashboard', user: req.user });
 });
 
 // Reset Password page (with token validation)

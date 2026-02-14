@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop Owner Dashboard | DesignDekhoo</title>
     <link rel="stylesheet" href="/css/dashboard.css">
-    <!-- Font Awesome for icons, if needed. For now, using emojis or basic icons -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
+    <style>
+        .section {
+            display: none;
+        }
+        .active-section {
+            display: block;
+        }
+    </style>
 </head>
 <body class="dashboard-page">
 
@@ -14,49 +20,33 @@
         <!-- || SIDEBAR -->
         <aside class="dashboard-sidebar">
             <div class="sidebar-header">
-                <a class="logo" data-modal-target="logout-confirm-modal">DesignDekhoo</a>
+                <div id="siteLogo" class="logo">
+                  Design Dekhoo
+                </div>
             </div>
             <div class="shop-profile">
                 <div class="profile-avatar" id="sidebar-shop-initial"></div>
                 <div class="profile-info">
-                    <h4 id="sidebar-shop-name"></h4>
-                    <p>Shop Owner</p>
+                    <h3 id="shopDisplayName"><%= user?.shopName || "My Shop" %></h3>
                 </div>
             </div>
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active sidebar-link" data-section="dashboard-section">
-                    <span class="nav-icon">📊</span> <span class="nav-text">Dashboard</span>
-                </a>
-                <a href="#" class="nav-item sidebar-link" data-section="catalog-section">
-                    <span class="nav-icon">📦</span> <span class="nav-text">My Catalog</span>
-                </a>
-                <a href="#" class="nav-item sidebar-link" data-section="add-product-section">
-                    <span class="nav-icon">➕</span> <span class="nav-text">Add Product</span>
-                </a>
-                <a href="#" class="nav-item sidebar-link" data-section="categories-section">
-                    <span class="nav-icon">🏷️</span> <span class="nav-text">Categories</span>
-                </a>
-                <a href="#" class="nav-item sidebar-link" data-section="profile-section">
-                    <span class="nav-icon">⚙️</span> <span class="nav-text">Profile</span>
-                </a>
-                <a href="#" class="nav-item" id="share-catalog-btn-sidebar">
-                    <span class="nav-icon">🔗</span> <span class="nav-text">Share Catalog</span>
-                </a>
+                <div class="sidebar">
+                  <button class="nav-btn" data-section="dashboard-home">Dashboard</button>
+                  <button class="nav-btn" data-section="catalog-home">My Catalog</button>
+                  <button class="nav-btn" data-section="add-product-home">Add Product</button>
+                  <button class="nav-btn" data-section="categories-home">Categories</button>
+                  <button class="nav-btn" data-section="profile-home">Profile</button>
+                  <button class="nav-btn" data-section="share-home">Share Catalog</button>
+                  <button id="logoutBtn" class="nav-btn logout-btn">Logout</button>
+                </div>
             </nav>
-            <div class="sidebar-footer">
-                <form action="/api/auth/logout" method="POST" id="sidebar-logout-form">
-                    <button type="submit" class="nav-item logout-nav-item" id="sidebar-logout-btn" data-modal-target="logout-confirm-modal">
-                        <span class="nav-icon">🚪</span> <span class="nav-text">Logout</span>
-                    </button>
-                </form>
-            </div>
         </aside>
 
         <!-- || MAIN CONTENT -->
         <main class="dashboard-main">
             <header class="dashboard-header">
                 <button class="sidebar-toggle-btn">☰</button>
-                <h1 id="dashboard-shop-name-header"></h1>
                 <div class="profile-actions">
                     <div class="profile-avatar" id="navbar-profile-avatar"></div>
                     <div class="profile-dropdown" id="profile-dropdown">
@@ -69,231 +59,74 @@
             </header>
 
             <div class="dashboard-content">
-                <!-- DASHBOARD HOME SECTION -->
-                <section id="dashboard-section" class="dashboard-section active">
-                    <h2>Dashboard Overview</h2>
-                    <div class="summary-cards">
-                        <div class="card">
-                            <h3>Total Products</h3>
-                            <p id="total-products-count">0</p>
-                        </div>
-                        <div class="card">
-                            <h3>Total Categories</h3>
-                            <p id="total-categories-count">0</p>
-                        </div>
-                        <div class="card">
-                            <h3>Public Views</h3>
-                            <p>0</p>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <h3>Product Views (Placeholder)</h3>
-                        <div class="chart-placeholder">Graph goes here...</div>
-                    </div>
-                </section>
 
-                <!-- MY CATALOG SECTION -->
-                <section id="catalog-section" class="dashboard-section">
-                    <h2>My Catalog</h2>
-                    <div class="catalog-filters">
-                                            <div class="custom-select-wrapper" id="catalog-category-filter">
-                                                <div class="custom-select-trigger">
-                                                    <span class="selected-category">All Categories</span>
-                                                    <div class="arrow"></div>
-                                                </div>
-                                                <div class="custom-options">
-                                                    <span class="custom-option selected" data-value="">All Categories</span>
-                                                    <!-- Dynamic categories will be loaded here -->
-                                                </div>
-                                            </div>
-                                            <div class="add-new-category-container">
-                                                <input type="text" id="new-category-name-input" placeholder="New Category Name">
-                                                <button class="btn-primary" id="add-category-button">Add</button>
-                                            </div>
-                                            <button class="btn-primary nav-item sidebar-link" data-section="add-product-section">Add New Product</button>                    </div>
-                    <div class="product-grid" id="my-catalog-product-grid">
-                        <!-- Dynamic product cards will be loaded here -->
-                        <div class="product-card-dash">
-                            <img src="/images/placeholder.jpg" alt="Product Name">
-                            <div class="product-info-dash">
-                                <h4>Sample Product</h4>
-                                <p>Category: Bedroom</p>
-                                <p>Material: Wood</p>
-                            </div>
-                            <div class="product-actions-dash">
-                                <button class="btn-secondary">Edit</button>
-                                <button class="btn-danger">Delete</button>
-                            </div>
-                        </div>
+              <section id="dashboard-home" class="section active-section">
+                <div class="dashboard-home-header">
+                </div>
+                <div class="summary-cards">
+                    <div class="card">
+                        <h3>Total Products</h3>
+                        <p id="total-products-count">0</p>
                     </div>
-                </section>
-
-                <!-- ADD PRODUCT SECTION -->
-                <section id="add-product-section" class="dashboard-section">
-                    <h2>Add New Product</h2>
-                    <form class="add-product-form" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="product-name">Product Name</label>
-                            <input type="text" id="product-name" name="title" placeholder="e.g., Elegant Sofa Set" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-category">Category</label>
-                            <select id="product-category" name="category" required>
-                                <option value="">Select a Category</option>
-                                <!-- Dynamic categories will be loaded here -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-material">Material</label>
-                            <select id="product-material" name="material" required>
-                                <option value="">Select Material</option>
-                                <option value="Wood">Wood</option>
-                                <option value="Plywood">Plywood</option>
-                                <option value="MDF">MDF</option>
-                                <option value="Metal">Metal</option>
-                                <option value="Glass">Glass</option>
-                                <option value="Marble">Marble</option>
-                                <option value="Plastic">Plastic</option>
-                                <option value="Fabric">Fabric</option>
-                                <option value="Leather">Leather</option>
-                                <option value="Engineered Wood">Engineered Wood</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group" id="custom-material-group" style="display: none;">
-                            <label for="custom-product-material">Custom Material</label>
-                            <input type="text" id="custom-product-material" name="customMaterial" placeholder="e.g., Ceramic, Rattan">
-                        </div>
-                        <div class="form-group">
-                            <label for="product-description">Description (Optional)</label>
-                            <textarea id="product-description" name="description" rows="4" placeholder="Briefly describe your product..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="product-notes">Notes (Optional)</label>
-                            <textarea id="product-notes" name="notes" rows="3" placeholder="Any special notes or dimensions..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Product Images</label>
-                            <div class="image-upload-placeholder">
-                                <input type="file" id="product-images" name="images" multiple accept="image/*" required>
-                                <p>Drag & drop images here, or click to browse (Max 5 images)</p>
-                            </div>
-                            <div id="image-preview" class="image-preview-container"></div>
-                        </div>
-                        <button type="submit" class="btn-submit">Add Product</button>
-                    </form>
-                </section>
-
-                <!-- CATEGORIES MANAGEMENT SECTION -->
-                <section id="categories-section" class="dashboard-section">
-                    <h2>Manage Categories</h2>
-                    <div class="add-category-form-container">
-                        <input type="text" id="new-category-name" placeholder="New Custom Category Name">
-                        <button class="btn-primary" id="add-category-btn">Add Category</button>
+                    <div class="card">
+                        <h3>Total Categories</h3>
+                        <p id="total-categories-count">0</p>
                     </div>
-                    <div class="category-list-container">
-                        <h3>Your Categories</h3>
-                        <ul id="category-list" class="category-list">
-                            <!-- Dynamic categories will be loaded here -->
-                            <li class="category-item">
-                                <span>Bedroom</span>
-                                <div class="category-actions">
-                                    <button class="btn-secondary btn-edit">Edit</button>
-                                    <button class="btn-danger btn-delete">Delete</button>
-                                </div>
-                            </li>
-                        </ul>
+                    <div class="card">
+                        <h3>Profile Completion</h3>
+                        <p id="profile-completion-percentage">0%</p>
                     </div>
-                </section>
+                </div>
+                <div class="chart-container">
+                    <h3>Product Views (Placeholder)</h3>
+                    <div class="chart-placeholder">Graph goes here...</div>
+                </div>
+              </section>
 
-                <!-- SHOP PROFILE SETTINGS SECTION -->
-                <section id="profile-section" class="dashboard-section">
-                    <h2>Shop Profile Settings</h2>
+              <section id="catalog-home" class="section">
+                <h2>My Catalog Section</h2>
+                <p>Content for managing your products will go here.</p>
+              </section>
 
-                    <!-- Profile Picture Upload Option -->
-                    <div class="profile-picture-upload-container">
-                        <div class="profile-picture-preview-wrapper">
-                            <img id="profile-picture-preview" src="/images/placeholder.jpg" alt="Profile Picture">
-                            <div class="upload-overlay">
-                                <label for="profile-picture-input" class="upload-icon">📸</label>
-                                <input type="file" id="profile-picture-input" accept="image/*" style="display: none;">
-                                <!-- Camera capture option can be added here if needed, but for simplicity, the file input covers both -->
-                            </div>
-                        </div>
-                        <button type="button" id="change-profile-picture-btn" class="btn-secondary">Change Profile Picture</button>
-                        <p class="profile-picture-info">Click the camera icon or button to upload a new profile picture.</p>
-                    </div>
+              <section id="add-product-home" class="section">
+                <h2>Add Product Section</h2>
+                <p>Form to add new products will be here.</p>
+              </section>
 
-                    <form class="shop-profile-form" id="shop-profile-form">
-                        <div class="form-group">
-                            <label for="shop-name">Shop Name</label>
-                            <input type="text" id="shop-name" name="shopName" value="<%= user?.shopName || '' %>" required disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="owner-name">Owner Name</label>
-                            <input type="text" id="owner-name" name="name" value="<%= user?.name || '' %>" required disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="shop-phone">Phone Number</label>
-                            <input type="tel" id="shop-phone" name="phone" value="<%= user?.phone || '' %>" placeholder="e.g., +91 9876543210" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="shop-email">Email</label>
-                            <input type="email" id="shop-email" name="email" value="<%= user?.email || '' %>" required disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="shop-address">Address</label>
-                            <textarea id="shop-address" name="address" rows="3" placeholder="Shop Address" disabled><%= user?.address || '' %></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="google-maps-link">Google Maps Link</label>
-                            <input type="url" id="google-maps-link" name="googleMapsLink" value="<%= user?.googleMapsLink || '' %>" placeholder="e.g., https://goo.gl/maps/..." disabled>
-                        </div>
-                        <div class="form-actions">
-                            <button type="button" id="edit-profile-btn" class="btn-secondary">Edit Profile</button>
-                            <button type="submit" id="save-profile-btn" class="btn-submit" style="display: none;">Save Changes</button>
-                        </div>
-                    </form>
-                    <div id="profile-message" class="message" style="display: none;"></div>
-                </section>
+              <section id="categories-home" class="section">
+                <h2>Categories Section</h2>
+                <p>Manage your product categories here.</p>
+              </section>
+
+              <section id="profile-home" class="section">
+                <h2>Profile Section</h2>
+                <p>Manage your shop profile settings here.</p>
+              </section>
+
+              <section id="share-home" class="section">
+                <h2>Share Catalog Section</h2>
+                <p>Options to share your catalog will be here.</p>
+              </section>
+
             </div>
         </main>
     </div>
 
-    <!-- SHARE CATALOG MODAL -->
-    <div class="modal-overlay" id="share-catalog-modal">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="modal-close-btn">&times;</button>
-            <h3>Share Your Catalog</h3>
-            <p>Share this link with your customers to showcase your furniture collection.</p>
-            <div class="share-link-container">
-                <input type="text" id="public-catalog-link" value="https://designdekhoo.com/catalog/your-shop-id" readonly>
-                <button id="copy-catalog-link-btn">Copy</button>
-            </div>
+    <!-- Modals and other global elements if any, go here.
+         Existing modals like share-catalog-modal and logout-confirm-modal
+         are intentionally omitted for a clean structural reset, as per strict instructions.
+         These would be re-added as part of subsequent feature implementations if required. -->
+
+    <script src="/js/dashboard.js"></script>
+
+    <div id="logoutModal">
+      <div class="modal-content">
+        <h3>Logout?</h3>
+        <p>Are you sure you want to logout?</p>
+        <div class="modal-actions">
+          <button id="cancelLogout">Cancel</button>
+          <button id="confirmLogout">Logout</button>
         </div>
-    </div>
-
-    <!-- LOGOUT CONFIRMATION MODAL -->
-    <div class="modal-overlay" id="logout-confirm-modal">
-        <div class="modal-content logout-modal">
-            <button class="modal-close-btn" id="logout-modal-close-btn">&times;</button>
-            <h3>Heading out already?</h3>
-            <p>Your showroom will be right here when you return.</p>
-            <div class="modal-actions">
-                <button class="btn-secondary" id="stay-designing-btn">Stay & Continue Designing</button>
-                <button class="btn-danger" id="yes-take-me-home-btn">Yes, Take Me Home</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Message Popup -->
-    <div id="copy-success-message" class="success-message">
-        Link copied to clipboard!
-    </div>
-
-    <script>
-        window.currentUser = <%- JSON.stringify(user || {}) %>; // Ensure user is an object even if null
-    </script>
-    <script src="/js/dashboard.js" defer></script>
-</body>
+      </div>
+    </div></body>
 </html>

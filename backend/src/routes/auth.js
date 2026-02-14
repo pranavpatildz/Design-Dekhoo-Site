@@ -66,4 +66,9 @@ const { jwtAuth } = require('../middleware/auth'); // Import jwtAuth middleware
 // @access  Private
 router.get('/me', jwtAuth, authController.getShopOwnerProfile);
 
+// @route   GET /logout
+// @desc    Logout user and redirect to homepage
+// @access  Public
+router.get("/logout", authController.logout);
+
 module.exports = router;

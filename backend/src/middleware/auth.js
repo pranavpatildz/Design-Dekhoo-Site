@@ -23,9 +23,18 @@ exports.jwtAuth = function (req, res, next) {
   }
 };
 
-exports.isAuthenticated = function (req, res, next) {
-  if (!req.session.user) {
-    return res.redirect('/login');
+exports.protect = function (req, res, next) {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.redirect("/login");
   }
-  next();
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // The protect middleware will set req.user
+    next();
+  } catch (err) {
+    return res.redirect("/login");
+  }
 };

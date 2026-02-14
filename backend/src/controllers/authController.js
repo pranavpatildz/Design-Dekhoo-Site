@@ -269,10 +269,21 @@ exports.resetPassword = async (req, res) => {
 
     await shopOwner.save();
 
-    res.status(200).json({ msg: 'Password reset successfully. Redirecting to login...', redirectTo: '/login' });
-
-  } catch (err) {
-    console.error('Reset password error:', err.message);
-    res.status(500).send('Server error');
-  }
-};
+            res.status(200).json({ msg: 'Password reset successfully. Redirecting to login...', redirectTo: '/login' });
+    
+          } catch (err) {
+            console.error('Reset password error:', err.message);
+            res.status(500).send('Server error');
+          }
+        };
+    
+        exports.logout = (req, res) => {
+          res.clearCookie("token", {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: false,
+            path: "/"
+          });
+        
+          return res.redirect("/");
+        };        
