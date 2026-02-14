@@ -581,6 +581,51 @@ textarea {
     font-size: 0.9em;
 }
 
+/* Image Preview Container for Add Product Form */
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview-item .remove-image-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.8em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+}
+
 /* Product Grid */
 .product-grid {
     display: grid;
@@ -791,74 +836,300 @@ body.modal-open .dashboard-layout {
     transition: filter 0.3s ease;
 }
 
+/* Profile Picture Upload Section */
+.profile-picture-upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--color-sand-dark);
+}
+
+.profile-picture-preview-wrapper {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 15px;
+    background-color: var(--color-sand-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: var(--shadow-soft-medium);
+    cursor: pointer;
+}
+
+.profile-picture-preview-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-picture-preview-wrapper .upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-picture-preview-wrapper:hover .upload-overlay {
+    opacity: 1;
+}
+
+.upload-icon {
+    font-size: 2em;
+    color: var(--color-sand-light);
+    cursor: pointer;
+}
+
+#change-profile-picture-btn {
+    margin-top: 10px;
+}
+
+.profile-picture-info {
+    font-size: 0.9em;
+    color: var(--color-text-muted);
+    margin-top: 10px;
+}
+
+/* Ensure profile-avatar circles also reflect the uploaded image */
+.profile-avatar {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 /* Responsive adjustments */
-@media (max-width: 992px) {
+/* Tablet (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .dashboard-layout {
+        grid-template-columns: 1fr; /* Main content takes full width */
+    }
+
     .dashboard-sidebar {
-        width: 70px; /* Collapsed by default on smaller screens */
-        position: absolute;
+        width: 250px; /* Keep a decent width when open */
+        position: fixed; /* Fixed position for collapsible */
         height: 100%;
-        left: -70px;
-        z-index: 1000;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%); /* Hidden by default */
+        transition: transform 0.3s ease-in-out;
+        z-index: 1200; /* Ensure it's above other content */
+        box-shadow: var(--shadow-soft-large);
     }
 
     .dashboard-sidebar.show {
-        left: 0;
+        transform: translateX(0); /* Show when 'show' class is added */
     }
 
-    .dashboard-sidebar .shop-profile,
-    .dashboard-sidebar .profile-info,
-    .dashboard-sidebar .nav-item:not(.has-submenu) .nav-text {
-        display: none;
-    }
-
-    .dashboard-sidebar .nav-item {
-        justify-content: center;
-        padding: 12px 0;
-    }
-
-    .dashboard-sidebar .nav-icon {
-        margin-right: 0;
-    }
-
-    .dashboard-sidebar .sidebar-header .logo {
-        font-size: 0;
+    /* Adjust main content when sidebar is open */
+    body.sidebar-open .dashboard-main {
+        transform: translateX(250px); /* Push content when sidebar is open */
+        transition: transform 0.3s ease-in-out;
     }
 
     .sidebar-toggle-btn {
-        display: block; /* Show toggle button on smaller screens */
+        display: block; /* Show toggle button on tablet */
+    }
+
+    .dashboard-header {
+        padding: 15px 20px; /* Adjust header padding */
     }
 
     .dashboard-main {
-        margin-left: 0; /* No margin when sidebar is collapsed */
+        padding: 15px; /* Adjust main content padding */
+        margin-left: 0; /* No static margin */
+    }
+
+    /* Summary cards: 2 columns on tablet */
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+        gap: 15px;
+    }
+
+    /* Product grid: 2 columns on tablet */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+        gap: 15px;
+    }
+
+    /* Ensure form fields are 100% width on tablet if they aren't already */
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
     }
 }
 
+/* Large Mobile (max-width: 768px) */
 @media (max-width: 768px) {
     .dashboard-header {
-        padding: 10px 20px;
+        padding: 10px 15px;
+        flex-wrap: wrap; /* Allow header items to wrap */
+        height: auto;
     }
 
     .dashboard-header h1 {
-        font-size: 1.5em;
+        font-size: 1.4em;
+        width: 100%; /* Title takes full width */
+        text-align: center;
+        margin-bottom: 10px;
     }
 
-    .dashboard-content {
-        padding: 20px;
+    .profile-actions {
+        width: 100%; /* Profile actions take full width */
+        justify-content: center;
+        display: flex;
+        order: 3; /* Move profile to bottom if wrapped */
+    }
+
+    .sidebar-toggle-btn {
+        order: 1; /* Place toggle button first */
+        margin-right: 10px;
+    }
+
+    .dashboard-main {
+        padding: 10px;
     }
 
     .dashboard-section {
-        padding: 20px;
+        padding: 15px;
     }
 
+    /* Summary cards: 1 column on mobile */
     .summary-cards {
-        grid-template-columns: 1fr; /* Stack cards on very small screens */
+        grid-template-columns: 1fr; /* 1 column on mobile */
+        gap: 10px;
+    }
+
+    /* Product grid: 1 column on mobile */
+    .product-grid {
+        grid-template-columns: 1fr; /* 1 column on mobile */
+        gap: 10px;
+    }
+
+    /* Buttons: Full width on mobile */
+    .btn-submit, .btn-primary, .btn-secondary, .btn-danger {
+        width: 100%;
+        display: block;
+        text-align: center;
+        margin-bottom: 10px; /* Add some spacing between stacked buttons */
+    }
+    .modal-actions {
+        flex-direction: column; /* Stack modal buttons */
+        gap: 10px;
+    }
+    .modal-actions .btn-secondary,
+    .modal-actions .btn-danger {
+        min-width: unset; /* Remove min-width for full flexibility */
     }
 }
 
-@media (min-width: 993px) {
-    .sidebar-toggle-btn {
-        display: none; /* Hide toggle button on larger screens */
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .dashboard-sidebar {
+        width: 100%; /* Full width sidebar on small mobile */
     }
+    body.sidebar-open .dashboard-main {
+        transform: translateX(100%); /* Push content when sidebar is open */
+    }
+    .dashboard-header h1 {
+        font-size: 1.2em;
+    }
+    .profile-actions .profile-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9em;
+    }
+    .dashboard-main {
+        padding: 5px;
+    }
+    .dashboard-section {
+        padding: 10px;
+    }
+}
+
+/* Desktop (min-width: 1025px) - Adjusted from 993px to prevent overlap with max-width: 1024px */
+@media (min-width: 1025px) {
+    .dashboard-layout {
+        grid-template-columns: 250px 1fr; /* Fixed sidebar width for desktop */
+    }
+    .dashboard-sidebar {
+        position: static; /* Static for desktop fixed sidebar */
+        transform: translateX(0);
+        box-shadow: none;
+        width: 250px;
+    }
+    body.sidebar-open .dashboard-main {
+        transform: translateX(0); /* Reset transform for desktop */
+    }
+    .sidebar-toggle-btn {
+        display: none; /* Hide toggle button on desktop */
+    }
+    .dashboard-main {
+        padding: 30px;
+    }
+    .dashboard-header {
+        padding: 15px 30px;
+        flex-wrap: nowrap;
+        height: auto;
+    }
+    .dashboard-header h1 {
+        width: auto;
+        text-align: left;
+        margin-bottom: 0;
+        font-size: 1.8em;
+    }
+    .profile-actions {
+        width: auto;
+        order: unset;
+        display: flex;
+    }
+
+    /* Summary cards: 3 columns on desktop */
+    .summary-cards {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+        gap: 20px;
+    }
+    /* Product grid: 3 columns on desktop */
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+        gap: 20px;
+    }
+}
+
+/* Original global styles for dashboard page body and layout, ensuring they apply */
+body.dashboard-page {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    background-color: var(--color-sand-light); /* Light gray background */
+    display: flex;
+    min-height: 100vh;
+    color: var(--color-text-light);
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.dashboard-layout {
+    display: grid;
+    width: 100%;
+}
+
+/* Sidebar and Main Content adjustments when sidebar is open for background blur */
+body.sidebar-open .dashboard-layout {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
 }
 
 /* Success Message styles */
@@ -890,6 +1161,53 @@ body.modal-open .dashboard-layout {
     width: 200px; /* Adjust as needed */
     margin-right: 15px;
     z-index: 100; /* Ensure it appears above other content */
+}
+
+/* Styles for adding new category input and button */
+.add-new-category-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px; /* Space from existing filter */
+    align-items: center;
+}
+
+#new-category-name-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--color-sand-dark);
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#new-category-name-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-focus-shadow);
+    outline: none;
+}
+
+#add-category-button {
+    padding: 10px 15px;
+    white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+@media (max-width: 768px) {
+    .catalog-filters {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .custom-select-wrapper {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .add-new-category-container {
+        width: 100%;
+        margin-top: 0;
+    }
 }
 
 .custom-select-trigger {

@@ -24,19 +24,19 @@
                 </div>
             </div>
             <nav class="sidebar-nav">
-                <a href="#" class="nav-item active" data-section="dashboard-home">
+                <a href="#" class="nav-item active sidebar-link" data-section="dashboard-section">
                     <span class="nav-icon">📊</span> <span class="nav-text">Dashboard</span>
                 </a>
-                <a href="#" class="nav-item" data-section="my-catalog">
+                <a href="#" class="nav-item sidebar-link" data-section="catalog-section">
                     <span class="nav-icon">📦</span> <span class="nav-text">My Catalog</span>
                 </a>
-                <a href="#" class="nav-item" data-section="add-product">
+                <a href="#" class="nav-item sidebar-link" data-section="add-product-section">
                     <span class="nav-icon">➕</span> <span class="nav-text">Add Product</span>
                 </a>
-                <a href="#" class="nav-item" data-section="categories-management">
+                <a href="#" class="nav-item sidebar-link" data-section="categories-section">
                     <span class="nav-icon">🏷️</span> <span class="nav-text">Categories</span>
                 </a>
-                <a href="#" class="nav-item" data-section="shop-profile-settings">
+                <a href="#" class="nav-item sidebar-link" data-section="profile-section">
                     <span class="nav-icon">⚙️</span> <span class="nav-text">Profile</span>
                 </a>
                 <a href="#" class="nav-item" id="share-catalog-btn-sidebar">
@@ -70,7 +70,7 @@
 
             <div class="dashboard-content">
                 <!-- DASHBOARD HOME SECTION -->
-                <section id="dashboard-home" class="dashboard-section active">
+                <section id="dashboard-section" class="dashboard-section active">
                     <h2>Dashboard Overview</h2>
                     <div class="summary-cards">
                         <div class="card">
@@ -93,30 +93,24 @@
                 </section>
 
                 <!-- MY CATALOG SECTION -->
-                <section id="my-catalog" class="dashboard-section">
+                <section id="catalog-section" class="dashboard-section">
                     <h2>My Catalog</h2>
                     <div class="catalog-filters">
-                        <div class="custom-select-wrapper" id="catalog-category-filter">
-                            <div class="custom-select-trigger">
-                                <span class="selected-category">All Categories</span>
-                                <div class="arrow"></div>
-                            </div>
-                            <div class="custom-options">
-                                <span class="custom-option selected" data-value="">All Categories</span>
-                                <span class="custom-option" data-value="Sofa">Sofa</span>
-                                <span class="custom-option" data-value="Chair">Chair</span>
-                                <span class="custom-option" data-value="Table">Table</span>
-                                <span class="custom-option" data-value="Bed">Bed</span>
-                                <span class="custom-option" data-value="Wardrobe">Wardrobe</span>
-                                <span class="custom-option" data-value="Dining">Dining</span>
-                                <span class="custom-option" data-value="Office Furniture">Office Furniture</span>
-                                <span class="custom-option" data-value="Outdoor">Outdoor</span>
-                                <span class="custom-option" data-value="Storage">Storage</span>
-                                <span class="custom-option" data-value="Home Decor">Home Decor</span>
-                            </div>
-                        </div>
-                        <button class="btn-primary" data-section="add-product">Add New Product</button>
-                    </div>
+                                            <div class="custom-select-wrapper" id="catalog-category-filter">
+                                                <div class="custom-select-trigger">
+                                                    <span class="selected-category">All Categories</span>
+                                                    <div class="arrow"></div>
+                                                </div>
+                                                <div class="custom-options">
+                                                    <span class="custom-option selected" data-value="">All Categories</span>
+                                                    <!-- Dynamic categories will be loaded here -->
+                                                </div>
+                                            </div>
+                                            <div class="add-new-category-container">
+                                                <input type="text" id="new-category-name-input" placeholder="New Category Name">
+                                                <button class="btn-primary" id="add-category-button">Add</button>
+                                            </div>
+                                            <button class="btn-primary nav-item sidebar-link" data-section="add-product-section">Add New Product</button>                    </div>
                     <div class="product-grid" id="my-catalog-product-grid">
                         <!-- Dynamic product cards will be loaded here -->
                         <div class="product-card-dash">
@@ -135,7 +129,7 @@
                 </section>
 
                 <!-- ADD PRODUCT SECTION -->
-                <section id="add-product" class="dashboard-section">
+                <section id="add-product-section" class="dashboard-section">
                     <h2>Add New Product</h2>
                     <form class="add-product-form" enctype="multipart/form-data">
                         <div class="form-group">
@@ -151,7 +145,24 @@
                         </div>
                         <div class="form-group">
                             <label for="product-material">Material</label>
-                            <input type="text" id="product-material" name="material" placeholder="e.g., Teak Wood, Leather" required>
+                            <select id="product-material" name="material" required>
+                                <option value="">Select Material</option>
+                                <option value="Wood">Wood</option>
+                                <option value="Plywood">Plywood</option>
+                                <option value="MDF">MDF</option>
+                                <option value="Metal">Metal</option>
+                                <option value="Glass">Glass</option>
+                                <option value="Marble">Marble</option>
+                                <option value="Plastic">Plastic</option>
+                                <option value="Fabric">Fabric</option>
+                                <option value="Leather">Leather</option>
+                                <option value="Engineered Wood">Engineered Wood</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="custom-material-group" style="display: none;">
+                            <label for="custom-product-material">Custom Material</label>
+                            <input type="text" id="custom-product-material" name="customMaterial" placeholder="e.g., Ceramic, Rattan">
                         </div>
                         <div class="form-group">
                             <label for="product-description">Description (Optional)</label>
@@ -174,7 +185,7 @@
                 </section>
 
                 <!-- CATEGORIES MANAGEMENT SECTION -->
-                <section id="categories-management" class="dashboard-section">
+                <section id="categories-section" class="dashboard-section">
                     <h2>Manage Categories</h2>
                     <div class="add-category-form-container">
                         <input type="text" id="new-category-name" placeholder="New Custom Category Name">
@@ -196,8 +207,23 @@
                 </section>
 
                 <!-- SHOP PROFILE SETTINGS SECTION -->
-                <section id="shop-profile-settings" class="dashboard-section">
+                <section id="profile-section" class="dashboard-section">
                     <h2>Shop Profile Settings</h2>
+
+                    <!-- Profile Picture Upload Option -->
+                    <div class="profile-picture-upload-container">
+                        <div class="profile-picture-preview-wrapper">
+                            <img id="profile-picture-preview" src="/images/placeholder.jpg" alt="Profile Picture">
+                            <div class="upload-overlay">
+                                <label for="profile-picture-input" class="upload-icon">📸</label>
+                                <input type="file" id="profile-picture-input" accept="image/*" style="display: none;">
+                                <!-- Camera capture option can be added here if needed, but for simplicity, the file input covers both -->
+                            </div>
+                        </div>
+                        <button type="button" id="change-profile-picture-btn" class="btn-secondary">Change Profile Picture</button>
+                        <p class="profile-picture-info">Click the camera icon or button to upload a new profile picture.</p>
+                    </div>
+
                     <form class="shop-profile-form" id="shop-profile-form">
                         <div class="form-group">
                             <label for="shop-name">Shop Name</label>
@@ -266,7 +292,7 @@
     </div>
 
     <script>
-        window.currentUser = <%- JSON.stringify(user) %>;
+        window.currentUser = <%- JSON.stringify(user || {}) %>; // Ensure user is an object even if null
     </script>
     <script src="/js/dashboard.js" defer></script>
 </body>
