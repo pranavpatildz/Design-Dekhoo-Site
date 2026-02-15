@@ -86,13 +86,90 @@
               </section>
 
               <section id="catalog-home" class="section">
-                <h2>My Catalog Section</h2>
-                <p>Content for managing your products will go here.</p>
+                <h2>My Catalog</h2>
+                <div class="product-listing">
+                  <!-- Products will be loaded here via JavaScript -->
+                  <div class="loading-state" style="text-align: center; padding: 50px;">Loading products...</div>
+                </div>
               </section>
 
               <section id="add-product-home" class="section">
-                <h2>Add Product Section</h2>
-                <p>Form to add new products will be here.</p>
+                <h2>Add Product</h2>
+                <form id="addProductForm" class="dashboard-form card-form" method="POST" action="/api/catalog/add" enctype="multipart/form-data">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="productName">Product Name</label>
+                      <input type="text" id="productName" name="title" placeholder="e.g., Modern Sofa" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="productPrice">Price</label>
+                      <input type="number" id="productPrice" name="price" placeholder="e.g., 499.99" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="productCategory">Category</label>
+                      <div class="custom-select-wrapper" id="categorySelectWrapper">
+                        <input type="hidden" id="productCategory" name="category" value="" required>
+                        <div class="custom-select-display" data-placeholder="Select Category">Select Category</div>
+                        <div class="custom-select-options" id="categoryOptions">
+                          <% if (categories && categories.length > 0) { %>
+                            <% categories.forEach(category => { %>
+                              <div class="custom-select-option" data-value="<%= category._id %>">
+                                <%= category.name %>
+                              </div>
+                            <% }); %>
+                          <% } %>
+                          <div class="custom-select-option custom-add-option" data-value="__custom__">+ Add New Category</div>
+                          <div class="custom-add-input-container" style="display:none;">
+                            <input type="text" placeholder="New Category Name" class="custom-add-input">
+                            <button type="button" class="custom-add-button btn-sm btn-primary">Add</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="productMaterial">Material</label>
+                      <div class="custom-select-wrapper" id="materialSelectWrapper">
+                        <input type="hidden" id="productMaterial" name="material" value="" required>
+                        <div class="custom-select-display" data-placeholder="Select Material">Select Material</div>
+                        <div class="custom-select-options" id="materialOptions">
+                          <% if (materials && materials.length > 0) { %>
+                            <% materials.forEach(material => { %>
+                              <div class="custom-select-option" data-value="<%= material._id %>">
+                                <%= material.name %>
+                              </div>
+                            <% }); %>
+                          <% } %>
+                          <div class="custom-select-option custom-add-option" data-value="__custom__">+ Add New Material</div>
+                          <div class="custom-add-input-container" style="display:none;">
+                            <input type="text" placeholder="New Material Name" class="custom-add-input">
+                            <button type="button" class="custom-add-button btn-sm btn-primary">Add</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                      <label for="productDescription">Description</label>
+                      <textarea id="productDescription" name="description" rows="4" placeholder="Describe your product..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                      <label for="productImage">Product Image</label>
+                      <input type="file" id="productImage" name="images" accept="image/*" multiple required>
+                      <small>Upload up to 5 images.</small>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <button type="submit" class="btn-primary">Add Product</button>
+                  </div>
+                </form>
+              </section>
+
+              <section id="edit-product-home" class="section">
+                <h2>Edit Product Section</h2>
+                <p>Form to edit product will be here.</p>
               </section>
 
               <section id="categories-home" class="section">

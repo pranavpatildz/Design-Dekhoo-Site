@@ -6,8 +6,8 @@ const FurnitureSchema = mongoose.Schema({
     description: { type: String },
     images: [{ type: String }],
     price: { type: Number },
-    material: { type: String },
-    shopOwnerId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false }
+    material: { type: mongoose.Schema.Types.ObjectId, ref: "Material" },
+    shopOwnerId: { type: mongoose.Schema.Types.ObjectId, ref: "ShopOwner", required: false }
 });
 
 module.exports = mongoose.model('Furniture', FurnitureSchema);

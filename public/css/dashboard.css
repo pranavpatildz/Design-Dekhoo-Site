@@ -140,6 +140,7 @@ body.dashboard-page {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
+    text-decoration: none; /* Remove underline from anchor tags */
 }
 
 .sidebar-nav .nav-btn:hover,
@@ -446,93 +447,597 @@ h2 {
 }
 
 
-/* Forms */
-.form-group {
+/* Responsive adjustments for new grid */
+@media (max-width: 1024px) {
+    .dashboard-stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust for tablet */
+        gap: 20px;
+    }
+    .stat-card {
+        padding: 20px;
+    }
+    .stat-card .stat-value {
+        font-size: 2em;
+    }
+    .performance-card {
+        padding: 25px;
+    }
+    .product-grid { /* Tablet product grid */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .dashboard-stats-grid {
+        grid-template-columns: 1fr; /* Stack on mobile */
+        gap: 15px;
+    }
+    .stat-card {
+        padding: 18px;
+    }
+    .stat-card .stat-value {
+        font-size: 2.2em;
+    }
+    .performance-card {
+        padding: 20px;
+    }
+    .performance-card h3 {
+        font-size: 1.4em;
+    }
+    .graph-placeholder {
+        height: 200px;
+    }
+    .product-grid { /* Mobile product grid */
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .dashboard-stats-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+        gap: 24px;
+    }
+    .product-grid { /* Desktop product grid */
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 250px min-width for desktop cards */
+        gap: 24px;
+    }
+}
+
+/* My Catalog Product Listing Styles */
+.product-listing {
+    margin-top: 20px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: var(--color-sand-main);
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft-light);
+    margin-top: 30px;
+}
+
+.empty-state p {
+    font-size: 1.2em;
+    color: var(--color-text-muted);
     margin-bottom: 20px;
 }
 
-.form-group label {
+.empty-state .btn-primary {
+    padding: 12px 30px;
+    font-size: 1em;
+}
+
+.product-grid {
+    display: grid;
+    /* Responsive adjustments in media queries below */
+    gap: 24px;
+}
+
+.product-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%; /* Ensure equal height */
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.product-image-container {
+    width: 100%;
+    height: 180px; /* Fixed height for consistent image size */
+    overflow: hidden;
+    background-color: var(--color-sand-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.product-details {
+    padding: 15px;
+    flex-grow: 1; /* Allows details to take up available space */
+}
+
+.product-title {
+    font-size: 1.2em;
+    color: var(--color-charcoal-dark);
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.product-price {
+    font-size: 1.1em;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.product-category {
+    font-size: 0.9em;
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+}
+
+.product-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-top: 1px solid var(--color-sand-dark);
+    background-color: var(--color-sand-light);
+}
+
+.product-actions .btn-edit,
+.product-actions .btn-delete {
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    text-decoration: none; /* For btn-edit which is an anchor */
+    text-align: center;
+}
+
+.product-actions .btn-edit {
+    background-color: var(--color-primary);
+    color: var(--color-sand-light);
+    border: none;
+}
+
+.product-actions .btn-edit:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+
+.product-actions .btn-delete {
+    background-color: var(--color-danger);
+    color: var(--color-sand-light);
+    border: none;
+}
+
+.product-actions .btn-delete:hover {
+    background-color: var(--color-danger-hover);
+    transform: translateY(-1px);
+}
+
+/* Forms */
+.dashboard-form {
+    background-color: #fff; /* White background for the form card */
+    padding: 30px;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
+    margin-top: 30px; /* Space from section title */
+}
+
+.dashboard-form .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two-column layout for desktop */
+    gap: 20px; /* Spacing between grid items */
+}
+
+.dashboard-form .form-group.full-width {
+    grid-column: span 2; /* Full width for description and image on desktop */
+}
+
+.dashboard-form label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: var(--color-text-light);
+    color: var(--color-charcoal-dark);
 }
 
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group input[type="email"],
-.form-group input[type="tel"],
-.form-group textarea,
-.form-group select {
+.dashboard-form input[type="text"],
+.dashboard-form input[type="number"],
+.dashboard-form select,
+.dashboard-form textarea {
     width: 100%;
     padding: 12px 15px;
     border: 1px solid var(--color-sand-dark);
-    border-radius: 5px;
+    border-radius: 8px; /* Slightly more rounded for input fields */
     font-size: 1em;
     box-sizing: border-box;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    background-color: var(--color-sand-light);
-    color: var(--color-text-light);
+    background-color: var(--color-sand-light); /* Light background for fields */
+    color: var(--color-charcoal-dark);
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="number"]:focus,
-.form-group input[type="email"]:focus,
-.form-group input[type="tel"]:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.dashboard-form input[type="text"]:focus,
+.dashboard-form input[type="number"]:focus,
+.dashboard-form select:focus,
+.dashboard-form textarea:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 2px var(--color-primary-focus-shadow);
     outline: none;
 }
 
-textarea {
+.dashboard-form textarea {
     resize: vertical;
 }
 
-.btn-submit, .btn-primary {
-    display: inline-block;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.dashboard-form input[type="file"] {
+    display: block; /* Make file input take full width */
+    width: 100%;
+    padding: 10px 0; /* Adjust padding for file input */
+    color: var(--color-charcoal-dark);
+}
+
+.dashboard-form small {
+    display: block;
+    margin-top: 5px;
+    color: var(--color-text-muted);
+    font-size: 0.85em;
+}
+
+.dashboard-form .form-actions {
+    margin-top: 30px;
+    text-align: right; /* Align button to the right */
+}
+
+.dashboard-form .btn-primary {
+    padding: 12px 30px;
     font-size: 1em;
+}
+
+/* Responsive adjustments for forms */
+@media (max-width: 767px) {
+    .dashboard-form .form-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 15px;
+    }
+    .dashboard-form .form-group.full-width {
+        grid-column: span 1; /* Single column for full-width items on mobile */
+    }
+    .dashboard-form {
+        padding: 20px;
+    }
+    .dashboard-form .form-actions {
+        text-align: center; /* Center button on mobile */
+    }
+    .custom-add-container {
+        flex-direction: column; /* Stack input and button on mobile */
+        gap: 10px;
+    }
+    .custom-add-container input[type="text"] {
+        width: 100%;
+    }
+}
+
+/* Custom Add Category/Material Inline Forms */
+.custom-add-container {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.custom-add-container input[type="text"] {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--color-sand-dark);
+    border-radius: 6px;
+    font-size: 0.9em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.custom-add-container input[type="text"]:focus {
+    border-color: var(--color-primary);
+    outline: none;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 0.85em;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+
+/* Modern Select Styling */
+
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d6d2c4;
+  background-color: #f8f6f2;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  outline: none;
+  transition: all 0.2s ease;
+  appearance: none;
+  cursor: pointer;
+  position: relative; /* Keep this for z-index */
+  z-index: 10; /* Keep this for z-index */
+}
+
+/* Custom arrow */
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%236b5e4b' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+}
+
+/* Hover */
+select:hover {
+  border-color: #b8956b;
+  background-color: #f3efe8;
+}
+
+/* Focus */
+select:focus {
+  border-color: #a67c52;
+  box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.15);
+  background-color: #ffffff;
+}
+
+/* Dropdown option styling */
+select option {
+  padding: 10px;
+  background: #ffffff;
+  color: #333;
+}
+
+/* Improve form spacing consistency */
+.form-group {
+  margin-bottom: 20px;
+}
+
+
+/* Forms */
+.dashboard-form {
+    background-color: #fff; /* White background for the form card */
+    padding: 30px;
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
+    margin-top: 30px; /* Space from section title */
+}
+
+.dashboard-form .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two-column layout for desktop */
+    gap: 20px; /* Spacing between grid items */
+}
+
+.dashboard-form .form-group.full-width {
+    grid-column: span 2; /* Full width for description and image on desktop */
+}
+
+.dashboard-form label {
+    display: block;
+    margin-bottom: 8px;
     font-weight: 600;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.2s ease, transform 0.1s ease;
+    color: var(--color-charcoal-dark);
 }
 
-.btn-submit, .btn-primary {
-    background-color: var(--color-primary);
-    color: var(--color-sand-light);
+.dashboard-form input[type="text"],
+.dashboard-form input[type="number"],
+/* .dashboard-form select, Remove this as custom select will be used */
+.dashboard-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--color-sand-dark);
+    border-radius: 8px; /* Slightly more rounded for input fields */
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--color-sand-light); /* Light background for fields */
+    color: var(--color-charcoal-dark);
 }
 
-.btn-submit:hover, .btn-primary:hover {
-    background-color: var(--color-primary-hover);
-    transform: translateY(-1px);
+.dashboard-form input[type="text"]:focus,
+.dashboard-form input[type="number"]:focus,
+/* .dashboard-form select:focus, Remove this */
+.dashboard-form textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-focus-shadow);
+    outline: none;
 }
 
-.btn-secondary {
-    background-color: var(--color-secondary);
-    color: var(--color-sand-light);
+.dashboard-form textarea {
+    resize: vertical;
 }
 
-.btn-secondary:hover {
-    background-color: var(--color-secondary-hover);
-    transform: translateY(-1px);
+.dashboard-form input[type="file"] {
+    display: block; /* Make file input take full width */
+    width: 100%;
+    padding: 10px 0; /* Adjust padding for file input */
+    color: var(--color-charcoal-dark);
 }
 
-.btn-danger {
-    background-color: var(--color-danger);
-    color: var(--color-sand-light);
+.dashboard-form small {
+    display: block;
+    margin-top: 5px;
+    color: var(--color-text-muted);
+    font-size: 0.85em;
 }
 
-.btn-danger:hover {
-    background-color: var(--color-danger-hover);
-    transform: translateY(-1px);
+.dashboard-form .form-actions {
+    margin-top: 30px;
+    text-align: right; /* Align button to the right */
 }
 
+.dashboard-form .btn-primary {
+    padding: 12px 30px;
+    font-size: 1em;
+}
+
+/* Responsive adjustments for forms */
+@media (max-width: 767px) {
+    .dashboard-form .form-grid {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 15px;
+    }
+    .dashboard-form .form-group.full-width {
+        grid-column: span 1; /* Single column for full-width items on mobile */
+    }
+    .dashboard-form {
+        padding: 20px;
+    }
+    .dashboard-form .form-actions {
+        text-align: center; /* Center button on mobile */
+    }
+}
+
+/* Custom Select Dropdown Styling */
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  /* margin-bottom: 20px; Removed, as form-group handles this */
+}
+
+.custom-select-display {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d6d2c4;
+  background-color: #f8f6f2;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  outline: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.custom-select-display::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #6b5e4b;
+  margin-left: 10px;
+  transition: transform 0.2s ease;
+}
+
+.custom-select-wrapper.open .custom-select-display::after {
+  transform: rotate(180deg);
+}
+
+.custom-select-display:hover {
+  border-color: #b8956b;
+  background-color: #f3efe8;
+}
+
+.custom-select-display.focused {
+  border-color: #a67c52;
+  box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.15);
+  background-color: #ffffff;
+}
+
+.custom-select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #d6d2c4;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100; /* Ensure it's above other content */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s;
+}
+
+.custom-select-wrapper.open .custom-select-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s;
+}
+
+.custom-select-option {
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #333;
+  font-size: 14px;
+}
+
+.custom-select-option:hover,
+.custom-select-option.selected {
+  background-color: #f3efe8;
+}
+
+.custom-select-option.custom-add-option {
+  font-weight: 600;
+  color: var(--color-primary);
+  border-top: 1px solid #d6d2c4;
+}
+
+.custom-add-input-container {
+  display: flex;
+  gap: 8px;
+  padding: 8px 14px;
+  background-color: #f8f6f2;
+  border-top: 1px solid #d6d2c4;
+  box-sizing: border-box;
+}
+
+.custom-add-input-container .custom-add-input {
+  flex-grow: 1;
+  padding: 6px 10px;
+  border: 1px solid #d6d2c4;
+  border-radius: 6px;
+  font-size: 0.9em;
+  outline: none;
+  background-color: #fff;
+}
+
+.custom-add-input-container .custom-add-button {
+  padding: 6px 12px;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
 /* Image Upload Placeholder */
 .image-upload-placeholder {
     border: 2px dashed var(--color-charcoal-accent);
@@ -1264,4 +1769,15 @@ body.modal-open .dashboard-layout {
 #logoutModal #cancelLogout {
   background: #eee;
 }
+
+/* Fix for dropdown direction issue */
+.dashboard-main,
+.dashboard-content,
+.dashboard-layout,
+.dashboard-form.card-form { /* Using the actual class for form card */
+  overflow: visible !important;
+}
+
+
+
 

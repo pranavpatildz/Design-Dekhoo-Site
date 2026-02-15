@@ -16,14 +16,14 @@ const addCategory = async (req, res) => {
   try {
     const newCategory = new Category({
       name: name,
-      shopOwnerId: req.shopOwner.id,
+      shopOwnerId: req.shopOwner._id,
       isCustom: true, // All categories added by the user are custom
     });
 
     const category = await newCategory.save();
     res.status(201).json(category);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in addCategory:', err); // Log full error
     if (err.code === 11000) { // Duplicate key error
         return res.status(400).json({ msg: 'Category with this name already exists for your shop.' });
     }
@@ -36,10 +36,10 @@ const addCategory = async (req, res) => {
 // @access  Private
 const getCategories = async (req, res) => {
   try {
-    const categories = await Category.find({ shopOwnerId: req.shopOwner.id }).sort({ name: 1 });
+    const categories = await Category.find({ shopOwnerId: req.shopOwner._id }).sort({ name: 1 });
     res.json(categories);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in getCategories:', err); // Log full error
     res.status(500).send('Server Error');
   }
 };
@@ -56,7 +56,7 @@ const updateCategory = async (req, res) => {
     const { name } = req.body;
 
     try {
-        let category = await Category.findOne({ _id: req.params.id, shopOwnerId: req.shopOwner.id });
+        let category = await Category.findOne({ _id: req.params.id, shopOwnerId: req.shopOwner._id });
 
         if (!category) {
             return res.status(404).json({ msg: 'Category not found or unauthorized' });
@@ -88,7 +88,7 @@ const updateCategory = async (req, res) => {
 // @access  Private
 const deleteCategory = async (req, res) => {
   try {
-    const category = await Category.findOne({ _id: req.params.id, shopOwnerId: req.shopOwner.id });
+    const category = await Category.findOne({ _id: req.params.id, shopOwnerId: req.shopOwner._id });
 
     if (!category) {
       return res.status(404).json({ msg: 'Category not found or unauthorized' });

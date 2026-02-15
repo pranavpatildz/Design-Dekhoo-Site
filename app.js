@@ -11,6 +11,9 @@ const connectDB = require('./backend/src/config/database');
 const { notFound, errorHandler } = require('./backend/src/middleware/errorMiddleware');
 const { protect } = require('./backend/src/middleware/auth'); // Import protect
 const ShopOwner = require('./backend/src/models/ShopOwner'); // Import ShopOwner model
+const Furniture = require('./backend/src/models/Furniture'); // Import Furniture model
+const Category = require('./backend/src/models/Category'); // Import Category model
+const Material = require('./backend/src/models/Material'); // Import Material model
 
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 // console.log('DB Connection String:', process.env.MONGO_URI); // Debug MONGO_URI - Removed
@@ -109,10 +112,98 @@ app.get('/public-catalog', (req, res) => {
     res.render('public-catalog', { title: 'Public Catalog' });
 });
 
-// Shop Dashboard page
-app.get('/shop-dashboard', protect, (req, res) => {
-    res.render('shop-dashboard', { title: 'Shop Dashboard', user: req.user });
+// Shop Dashboard page (summary only)
+app.get('/shop-dashboard', protect, async (req, res) => {
+    try {
+        const defaultCategoryNames = [
+            "Sofa",
+            "Chair",
+            "Table",
+            "Bed",
+            "Wardrobe",
+            "Cabinet",
+            "TV Unit",
+            "Dining Set",
+            "Study Table",
+            "Bookshelf",
+            "Recliner",
+            "Coffee Table",
+            "Side Table",
+            "Dressing Table",
+            "Office Chair"
+        ];
+
+        const defaultMaterialNames = [
+            "Solid Wood",
+            "Engineered Wood",
+            "Teak Wood",
+            "Sheesham Wood",
+            "MDF",
+            "Plywood",
+            "Metal",
+            "Stainless Steel",
+            "Aluminium",
+            "Glass",
+            "Tempered Glass",
+            "Plastic",
+            "Fabric",
+            "Velvet",
+            "Leather",
+            "Faux Leather",
+            "Marble",
+            "Granite",
+            "Rattan",
+            "Cane"
+        ];
+
+        // Fetch categories and materials initially
+        let categories = await Category.find({ shopOwnerId: req.user._id });
+        let materials = await Material.find({ shopOwnerId: req.user._id });
+
+        // Auto-seed default categories if collection is empty for this shop
+        if (categories.length === 0) {
+            const categoriesToInsert = defaultCategoryNames.map(name => ({ name, shopOwnerId: req.user._id }));
+            await Category.insertMany(categoriesToInsert);
+            categories = await Category.find({ shopOwnerId: req.user._id }); // Re-fetch updated list
+            console.log("Default categories seeded for shop owner:", req.user._id);
+        }
+
+        // Auto-seed default materials if collection is empty for this shop
+        if (materials.length === 0) {
+            const materialsToInsert = defaultMaterialNames.map(name => ({ name, shopOwnerId: req.user._id }));
+            await Material.insertMany(materialsToInsert);
+            materials = await Material.find({ shopOwnerId: req.user._id }); // Re-fetch updated list
+            console.log("Default materials seeded for shop owner:", req.user._id);
+        }
+        
+        // Fetch products and calculate totals after ensuring defaults
+        const products = await Furniture.find({ shopOwnerId: req.user._id });
+        const totalProducts = products.length;
+        const totalCategories = categories.length;
+        res.render('shop-dashboard', {
+            title: 'Shop Dashboard',
+            user: req.user,
+            categories,
+            materials, // Pass materials
+            products, // Pass products
+            totalProducts, // Pass totalProducts
+            totalCategories // Pass totalCategories
+        });
+    } catch (error) {
+        console.error('Error fetching data for shop dashboard:', error);
+        res.status(500).render('shop-dashboard', {
+            title: 'Shop Dashboard',
+            user: req.user,
+            categories: [],
+            materials: [], // Pass empty materials array on error
+            products: [],
+            totalProducts: 0,
+            totalCategories: 0
+        });
+    }
 });
+
+
 
 // Reset Password page (with token validation)
 app.get('/reset-password/:token', async (req, res) => {
