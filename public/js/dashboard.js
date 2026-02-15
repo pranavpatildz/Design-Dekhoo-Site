@@ -2,53 +2,55 @@ document.addEventListener("DOMContentLoaded", function () {
   const buttons = document.querySelectorAll(".nav-btn[data-section]");
   const sections = document.querySelectorAll(".section");
 
+  // Function to activate a section and highlight its nav button
+  function activateSection(sectionId) {
+    sections.forEach(sec => {
+      sec.classList.remove("active-section");
+    });
+
+    buttons.forEach(btn => { // Remove active class from all nav buttons
+      btn.classList.remove('active');
+    });
+
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+      targetSection.classList.add("active-section");
+      // Update URL hash without causing a page reload
+      if (history.pushState) {
+        history.pushState(null, '', `#${sectionId}`);
+      } else {
+        location.hash = `#${sectionId}`;
+      }
+    }
+
+    const correspondingNavButton = document.querySelector(`.nav-btn[data-section="${sectionId}"]`);
+    if (correspondingNavButton) {
+      correspondingNavButton.classList.add('active');
+    }
+  }
+
   buttons.forEach(btn => {
     btn.addEventListener("click", function () {
       const target = this.dataset.section;
-
-      sections.forEach(sec => {
-        sec.classList.remove("active-section");
-      });
-
-      const targetSection = document.getElementById(target);
-      if (targetSection) {
-        targetSection.classList.add("active-section");
-      }
+      activateSection(target);
     });
   });
+
+  // Activate section based on URL hash or default to dashboard-home on load
+  const initialHash = window.location.hash.substring(1); // Remove '#'
+  let sectionToActivate = "dashboard-home"; // Default
+
+  if (initialHash && document.getElementById(initialHash)) {
+    sectionToActivate = initialHash;
+  }
+  activateSection(sectionToActivate);
 
   // --- Dynamic Content Placeholders for Dashboard Home ---
   // The element 'sidebar-shop-name' is now handled by EJS directly
   // 'dashboard-welcome-shop-name' element has been removed from EJS
   const sidebarShopInitial = document.getElementById('sidebar-shop-initial');
-  const totalProductsCount = document.getElementById('total-products-count');
-  const totalCategoriesCount = document.getElementById('total-categories-count');
   const profileCompletionPercentage = document.getElementById('profile-completion-percentage');
   const navbarProfileAvatar = document.getElementById('navbar-profile-avatar');
-
-
-  // Placeholder Data (These values are now purely for the dashboard-home cards)
-  const shopName = "Dekhoo Designs"; // Example Shop Name (Used for dashboardWelcomeShopName context previously)
-  const profileImageUrl = "/images/profile-placeholder.jpg"; // Example profile image URL
-  const productsCount = 120; // Example count
-  const categoriesCount = 15; // Example count
-  const profileCompletion = 75; // Example percentage
-
-  // Populate dynamic elements
-  // Removed: if (dashboardWelcomeShopName) dashboardWelcomeShopName.textContent = `Welcome, ${shopName}!`
-  if (totalProductsCount) totalProductsCount.textContent = productsCount;
-  if (totalCategoriesCount) totalCategoriesCount.textContent = categoriesCount;
-  if (profileCompletionPercentage) profileCompletionPercentage.textContent = `${profileCompletion}%`;
-
-  // Set profile images (using background-image for circles)
-  if (sidebarShopInitial) {
-    sidebarShopInitial.style.backgroundImage = `url(${profileImageUrl})`;
-    sidebarShopInitial.textContent = ''; // Clear initials if image
-  }
-  if (navbarProfileAvatar) {
-    navbarProfileAvatar.style.backgroundImage = `url(${profileImageUrl})`;
-    navbarProfileAvatar.textContent = ''; // Clear initials if image
-  }
 
   // --- Sidebar Toggle for Mobile (if needed, based on CSS) ---
   const sidebarToggleBtn = document.querySelector('.sidebar-toggle-btn');

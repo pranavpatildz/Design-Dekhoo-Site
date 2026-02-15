@@ -61,27 +61,35 @@
             <div class="dashboard-content">
 
               <section id="dashboard-home" class="section active-section">
-                <div class="dashboard-home-header">
+                <div class="dashboard-section-header">
+                  <h2>Dashboard Overview</h2>
+                  <div class="divider"></div>
                 </div>
-                <div class="dashboard-stats">
-                    <div class="summary-cards">
-                        <div class="card">
-                            <h3>Total Products</h3>
-                            <p id="total-products-count">0</p>
-                        </div>
-                        <div class="card">
-                            <h3>Total Categories</h3>
-                            <p id="total-categories-count">0</p>
-                        </div>
-                        <div class="card">
-                            <h3>Profile Completion</h3>
-                            <p id="profile-completion-percentage">0%</p>
-                        </div>
-                    </div>
+
+                <div class="dashboard-stats-grid">
+                  <div class="stat-card">
+                    <p class="stat-value"><%= typeof totalProducts !== 'undefined' ? totalProducts : 0 %></p>
+                    <p class="stat-label">Total Products</p>
+                  </div>
+                  <div class="stat-card">
+                    <p class="stat-value"><%= typeof totalCategories !== 'undefined' ? totalCategories : 0 %></p>
+                    <p class="stat-label">Total Categories</p>
+                  </div>
+                  <div class="stat-card">
+                    <p class="stat-value" id="profile-completion-percentage">0%</p>
+                    <p class="stat-label">Profile Completion</p>
+                  </div>
+                  <div class="stat-card">
+                    <p class="stat-value">567</p>
+                    <p class="stat-label">Public Views</p>
+                  </div>
                 </div>
-                <h3>Performance Overview</h3>
-                <div class="analytics-card">
-                   <p>Your performance insights will appear here as your catalog grows.</p>
+
+                <div class="performance-card">
+                   <h3>Performance Overview</h3>
+                   <div class="graph-placeholder">
+                       <p>Graph insights will appear here</p>
+                   </div>
                 </div>
               </section>
 
