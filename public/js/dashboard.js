@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // The element 'sidebar-shop-name' is now handled by EJS directly
   // 'dashboard-welcome-shop-name' element has been removed from EJS
   const sidebarShopInitial = document.getElementById('sidebar-shop-initial');
-  const profileCompletionPercentage = document.getElementById('profile-completion-percentage');
+
   const navbarProfileAvatar = document.getElementById('navbar-profile-avatar');
 
   // --- Sidebar Toggle for Mobile (if needed, based on CSS) ---
