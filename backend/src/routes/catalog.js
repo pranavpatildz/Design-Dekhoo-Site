@@ -1,17 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { check } = require('express-validator');
-const { jwtAuth } = require('../middleware/auth'); // Import jwtAuth middleware
-const upload = require('../middleware/multer');
+const { jwtAuth } = require('../middleware/auth'); // Only jwtAuth remains
 const { 
-  addFurniture, 
   getFurniture, 
   getShopOwnerFurniture, 
   getFurnitureById, 
-    updateFurniture,
-    deleteFurniture,
-    getPublicShopCatalog
-  } = require('../controllers/catalogController');
+  getPublicShopCatalog
+} = require('../controllers/catalogController');
+
 // @route   GET api/catalog
 // @desc    Get all furniture with optional filters
 // @access  Public
@@ -20,7 +16,7 @@ router.get('/', getFurniture);
 // @route   GET api/catalog/my-products
 // @desc    Get all furniture belonging to the authenticated shop owner
 // @access  Private
-router.get('/my-products', jwtAuth, getShopOwnerFurniture);
+router.get('/my-products', jwtAuth, getShopOwnerFurniture); // Reverted to jwtAuth
 
 // @route   GET api/catalog/:shopId (Public Catalog View)
 // @desc    Get all furniture for a specific shop owner by their ID (public)
@@ -31,48 +27,6 @@ router.get('/:shopId', getPublicShopCatalog);
 // @desc    Get a single furniture item by ID
 // @access  Private (only owner can view their own)
 router.get('/:id', jwtAuth, getFurnitureById);
-
-
-// @route   POST api/catalog/add
-// @desc    Add new furniture
-// @access  Private
-router.post(
-  '/add',
-  [
-    jwtAuth,
-    upload.array('images', 5), // 'images' is the field name, 5 is the max number of files
-    [
-      check('category', 'Category is required').not().isEmpty(),
-      check('title', 'Title is required').not().isEmpty(),
-      check('material', 'Material is required').optional().not().isEmpty(),
-      check('price', 'Please enter a valid price').isNumeric(),
-    ],
-  ],
-  addFurniture
-);
-
-// @route   PUT api/catalog/:id
-// @desc    Update a furniture item by ID
-// @access  Private (only owner can update their own)
-router.put(
-  '/:id',
-  [
-    jwtAuth,
-    upload.array('images', 5), // Allow image updates, optional
-    [
-      check('category', 'Category is required').optional().not().isEmpty(),
-      check('title', 'Title is required').optional().not().isEmpty(),
-      check('material', 'Material is required').optional().not().isEmpty(),
-      check('price', 'Please enter a valid price').optional().isNumeric(),
-    ],
-  ],
-  updateFurniture
-);
-
-// @route   DELETE api/catalog/:id
-// @desc    Delete a furniture item by ID
-// @access  Private (only owner can delete their own)
-router.delete('/:id', jwtAuth, deleteFurniture);
 
 
 module.exports = router;

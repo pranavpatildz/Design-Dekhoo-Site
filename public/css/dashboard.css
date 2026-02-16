@@ -729,192 +729,6 @@ h2 {
     .dashboard-form .form-actions {
         text-align: center; /* Center button on mobile */
     }
-    .custom-add-container {
-        flex-direction: column; /* Stack input and button on mobile */
-        gap: 10px;
-    }
-    .custom-add-container input[type="text"] {
-        width: 100%;
-    }
-}
-
-/* Custom Add Category/Material Inline Forms */
-.custom-add-container {
-    margin-top: 10px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.custom-add-container input[type="text"] {
-    flex-grow: 1;
-    padding: 8px 12px;
-    border: 1px solid var(--color-sand-dark);
-    border-radius: 6px;
-    font-size: 0.9em;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease;
-}
-
-.custom-add-container input[type="text"]:focus {
-    border-color: var(--color-primary);
-    outline: none;
-}
-
-.btn-sm {
-    padding: 6px 12px;
-    font-size: 0.85em;
-    border-radius: 6px;
-    white-space: nowrap;
-}
-
-
-/* Modern Select Styling */
-
-select {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #d6d2c4;
-  background-color: #f8f6f2;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  outline: none;
-  transition: all 0.2s ease;
-  appearance: none;
-  cursor: pointer;
-  position: relative; /* Keep this for z-index */
-  z-index: 10; /* Keep this for z-index */
-}
-
-/* Custom arrow */
-select {
-  background-image: url("data:image/svg+xml;utf8,<svg fill='%236b5e4b' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 18px;
-}
-
-/* Hover */
-select:hover {
-  border-color: #b8956b;
-  background-color: #f3efe8;
-}
-
-/* Focus */
-select:focus {
-  border-color: #a67c52;
-  box-shadow: 0 0 0 3px rgba(166, 124, 82, 0.15);
-  background-color: #ffffff;
-}
-
-/* Dropdown option styling */
-select option {
-  padding: 10px;
-  background: #ffffff;
-  color: #333;
-}
-
-/* Improve form spacing consistency */
-.form-group {
-  margin-bottom: 20px;
-}
-
-
-/* Forms */
-.dashboard-form {
-    background-color: #fff; /* White background for the form card */
-    padding: 30px;
-    border-radius: 12px; /* Rounded corners */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Soft shadow */
-    margin-top: 30px; /* Space from section title */
-}
-
-.dashboard-form .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two-column layout for desktop */
-    gap: 20px; /* Spacing between grid items */
-}
-
-.dashboard-form .form-group.full-width {
-    grid-column: span 2; /* Full width for description and image on desktop */
-}
-
-.dashboard-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: var(--color-charcoal-dark);
-}
-
-.dashboard-form input[type="text"],
-.dashboard-form input[type="number"],
-/* .dashboard-form select, Remove this as custom select will be used */
-.dashboard-form textarea {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid var(--color-sand-dark);
-    border-radius: 8px; /* Slightly more rounded for input fields */
-    font-size: 1em;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    background-color: var(--color-sand-light); /* Light background for fields */
-    color: var(--color-charcoal-dark);
-}
-
-.dashboard-form input[type="text"]:focus,
-.dashboard-form input[type="number"]:focus,
-/* .dashboard-form select:focus, Remove this */
-.dashboard-form textarea:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px var(--color-primary-focus-shadow);
-    outline: none;
-}
-
-.dashboard-form textarea {
-    resize: vertical;
-}
-
-.dashboard-form input[type="file"] {
-    display: block; /* Make file input take full width */
-    width: 100%;
-    padding: 10px 0; /* Adjust padding for file input */
-    color: var(--color-charcoal-dark);
-}
-
-.dashboard-form small {
-    display: block;
-    margin-top: 5px;
-    color: var(--color-text-muted);
-    font-size: 0.85em;
-}
-
-.dashboard-form .form-actions {
-    margin-top: 30px;
-    text-align: right; /* Align button to the right */
-}
-
-.dashboard-form .btn-primary {
-    padding: 12px 30px;
-    font-size: 1em;
-}
-
-/* Responsive adjustments for forms */
-@media (max-width: 767px) {
-    .dashboard-form .form-grid {
-        grid-template-columns: 1fr; /* Single column on mobile */
-        gap: 15px;
-    }
-    .dashboard-form .form-group.full-width {
-        grid-column: span 1; /* Single column for full-width items on mobile */
-    }
-    .dashboard-form {
-        padding: 20px;
-    }
-    .dashboard-form .form-actions {
-        text-align: center; /* Center button on mobile */
-    }
 }
 
 /* Custom Select Dropdown Styling */
@@ -996,7 +810,7 @@ select option {
 }
 
 .custom-select-option {
-  padding: 10px 14px;
+  padding: 10px 15px;
   cursor: pointer;
   transition: background-color 0.2s ease;
   color: #333;
@@ -1005,7 +819,8 @@ select option {
 
 .custom-select-option:hover,
 .custom-select-option.selected {
-  background-color: #f3efe8;
+    background-color: var(--color-sand-dark);
+    color: var(--color-charcoal-dark);
 }
 
 .custom-select-option.custom-add-option {
@@ -1026,7 +841,7 @@ select option {
 .custom-add-input-container .custom-add-input {
   flex-grow: 1;
   padding: 6px 10px;
-  border: 1px solid #d6d2c4;
+  border: 1px solid var(--color-sand-dark);
   border-radius: 6px;
   font-size: 0.9em;
   outline: none;
@@ -1777,7 +1592,155 @@ body.modal-open .dashboard-layout {
 .dashboard-form.card-form { /* Using the actual class for form card */
   overflow: visible !important;
 }
+/* ADDED CSS FOR PRODUCT CARDS */
+.card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+}
 
+.card:hover {
+  transform: translateY(-4px);
+}
 
+.product-image {
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
+}
 
+.category-badge {
+  background: #e8d8c3;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+}
 
+/* Image Carousel Modal Styles */
+.modal-overlay.show {
+  display: flex; /* Override previous display:none for modals */
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.product-carousel-modal {
+  max-width: 900px; /* Larger for images */
+  width: 90%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.product-carousel-modal .modal-close-btn {
+  color: #333;
+}
+
+.carousel-display {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%; /* 4:3 Aspect Ratio (adjust as needed) */
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.carousel-display img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Show full image, don't crop */
+}
+
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1.5em;
+  z-index: 10;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-arrow.prev-arrow {
+  left: 10px;
+}
+
+.carousel-arrow.next-arrow {
+  right: 10px;
+}
+
+.carousel-thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.carousel-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.carousel-thumbnail.active,
+.carousel-thumbnail:hover {
+  border-color: var(--color-primary);
+}
+
+/* Thumbnail Stack in Product Card */
+.product-image-container {
+  position: relative; /* Needed for absolute positioning of thumbnail-stack */
+}
+
+.thumbnail-stack {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  display: flex;
+  gap: 3px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 3px 5px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.product-thumbnail {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.more-thumbnails {
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: 3px;
+  padding: 0 5px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

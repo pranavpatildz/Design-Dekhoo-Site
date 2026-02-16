@@ -71,6 +71,7 @@ const catalogRoutes = require('./backend/src/routes/catalog');
 const categoryRoutes = require('./backend/src/routes/category');
 const dashboardApiRoutes = require('./backend/src/routes/dashboard'); // Renamed for clarity: it's an API router
 const uploadRoutes = require('./backend/src/routes/upload');
+const productRoutes = require('./backend/src/routes/productRoutes');
 
 // === API Routes ===
 // Mount API routes under the /api prefix
@@ -79,6 +80,7 @@ app.use('/api/catalog', catalogRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/dashboard', dashboardApiRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/products', productRoutes);
 
 // === View Routes ===
 // Define routes that render EJS templates

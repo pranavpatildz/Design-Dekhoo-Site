@@ -87,9 +87,23 @@
 
               <section id="catalog-home" class="section">
                 <h2>My Catalog</h2>
-                <div class="product-listing">
-                  <!-- Products will be loaded here via JavaScript -->
-                  <div class="loading-state" style="text-align: center; padding: 50px;">Loading products...</div>
+                <div class="filter-controls">
+                  <div class="custom-select-wrapper filter-category-select">
+                    <div class="custom-select-display" id="categoryFilterDisplay" data-placeholder="Filter by Category">All Categories</div>
+                    <div class="custom-select-options" id="categoryFilterOptions">
+                      <div class="custom-select-option" data-value="all">All Categories</div>
+                      <% if (categories && categories.length > 0) { %>
+                        <% categories.forEach(category => { %>
+                          <div class="custom-select-option" data-value="<%= category._id %>">
+                            <%= category.name %>
+                          </div>
+                        <% }); %>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+                <div id="catalogContainer">
+                  <p>Loading products...</p>
                 </div>
               </section>
 
@@ -157,7 +171,7 @@
 
                     <div class="form-group full-width">
                       <label for="productImage">Product Image</label>
-                      <input type="file" id="productImage" name="images" accept="image/*" multiple required>
+                      <input type="file" id="productImage" name="images" accept="image/*" multiple>
                       <small>Upload up to 5 images.</small>
                     </div>
                   </div>
@@ -207,5 +221,21 @@
           <button id="confirmLogout">Logout</button>
         </div>
       </div>
-    </div></body>
+    </div>
+
+    <!-- Image Carousel Modal -->
+    <div id="imageCarouselModal" class="modal-overlay">
+      <div class="modal-content product-carousel-modal">
+        <button class="modal-close-btn">&times;</button>
+        <div class="carousel-display">
+          <img id="carouselMainImage" src="" alt="Product Image">
+          <button id="carouselPrev" class="carousel-arrow prev-arrow">&lt;</button>
+          <button id="carouselNext" class="carousel-arrow next-arrow">&gt;</button>
+        </div>
+        <div class="carousel-thumbnails" id="carouselThumbnails">
+          <!-- Thumbnails will be injected here -->
+        </div>
+      </div>
+    </div>
+</body>
 </html>
