@@ -88,9 +88,10 @@
               <section id="catalog-home" class="section">
                 <h2>My Catalog</h2>
                 <div class="filter-controls">
-                  <div class="custom-select-wrapper filter-category-select">
-                    <div class="custom-select-display" id="categoryFilterDisplay" data-placeholder="Filter by Category">All Categories</div>
-                    <div class="custom-select-options" id="categoryFilterOptions">
+                  <div class="custom-select-wrapper" id="catalogCategoryFilterWrapper">
+                    <input type="hidden" id="catalogProductCategory" name="categoryFilter" value="all" required>
+                    <div class="custom-select-display" data-placeholder="All Categories">All Categories</div>
+                    <div class="custom-select-options" id="catalogCategoryOptions">
                       <div class="custom-select-option" data-value="all">All Categories</div>
                       <% if (categories && categories.length > 0) { %>
                         <% categories.forEach(category => { %>

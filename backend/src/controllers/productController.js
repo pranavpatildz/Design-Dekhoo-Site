@@ -10,12 +10,14 @@ exports.addFurniture = async (req, res) => {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { category, title, material, price, description } = req.body;
-    const shopOwnerId = req.user._id; // Using req.user._id as per product routes middleware
-    // Images are now optional
-    const images = req.files && req.files.length > 0 ? req.files.map(file => file.path) : [];
-
-    const newFurniture = new Furniture({
+               const { category, title, material, price, description } = req.body;
+               const shopOwnerId = req.user._id;
+               // Images are now optional
+                          console.log("REQ.FILE:", req.file); // Debug log for single file
+                          console.log("REQ.FILES:", req.files); // My existing debug log for multiple files
+                                     const images = req.files
+                                       ? req.files.filter(file => file && file.secure_url).map(file => file.secure_url)
+                                       : [];    const newFurniture = new Furniture({
       shopOwnerId,
       category,
       title,

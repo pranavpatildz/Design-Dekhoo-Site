@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.className = 'public-product-card';
                 card.dataset.productId = product.id;
                 card.innerHTML = `
-                    <img src="${product.images[0] || '/images/placeholder.jpg'}" alt="${product.name}">
+                    <img src="${product.images[0]}" alt="${product.name}">
                     <div class="public-product-info">
                         <h4>${product.name}</h4>
                     </div>
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 publicThumbnailImagesContainer.appendChild(thumb);
             });
         } else {
-            publicMainImage.src = '/images/placeholder.jpg';
+            publicMainImage.src = '';
             publicThumbnailImagesContainer.innerHTML = '<p class="text-muted">No additional images.</p>';
         }
 

@@ -56,16 +56,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const navbarProfileAvatar = document.getElementById('navbar-profile-avatar');
 
-  // --- Reusable function to render a single product card (Basic version) ---
-  function renderProductCard(product) {
-    const imageUrl = product.images?.[0] || '/images/placeholder.jpg';
-    const formattedPrice = `₹${Number(product.price).toLocaleString("en-IN")}`;
+    // --- Reusable function to render a single product card (Basic version) ---
+
+    function renderProductCard(product) {
+
+      console.log("PRODUCT OBJECT:", product); // Log entire product object for inspection
+
+                 const imageUrl = product.images && product.images.length > 0
+
+                   ? product.images[0]
+
+                   : '/images/placeholder.jpg';    const formattedPrice = `₹${Number(product.price).toLocaleString("en-IN")}`;
     const categoryName = product.category?.name || 'N/A';
 
     return `
       <div class="product-card card" data-product-id="${product._id}">
         <div class="product-image-container">
-          <img class="product-image" src="${imageUrl}" alt="${product.title}">
+          <img class="product-image catalog-image" src="${imageUrl}" alt="${product.title}">
         </div>
         <div class="product-details">
           <h4 class="product-title">${product.title}</h4>
@@ -93,6 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
     container.innerHTML = `<div class="product-grid">${products.map(renderProductCard).join("")}</div>`;
   }
 
+  let allShopProducts = []; // Global variable to store all products
+
   // --- Function to fetch and render products ---
   function loadCatalog() {
     console.log("Loading catalog...");
@@ -106,13 +115,25 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .then(products => {
         console.log("Products received:", products);
-        renderProducts(products);
+        allShopProducts = products; // Store all products globally
+        renderProducts(allShopProducts); // Initially render all products
       })
       .catch(error => {
         console.error("Catalog fetch error:", error);
         document.getElementById("catalogContainer").innerHTML =
           "<p>Error loading products</p>";
       });
+  }
+
+  // --- Function to filter and render products ---
+  function filterProducts(categoryId) {
+    let filteredProducts = [];
+    if (categoryId === 'all') {
+      filteredProducts = allShopProducts;
+    } else {
+      filteredProducts = allShopProducts.filter(product => product.category?._id === categoryId);
+    }
+    renderProducts(filteredProducts);
   }
 
   // --- Sidebar Toggle for Mobile ---
@@ -191,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const formData = new FormData(this); // 'this' refers to the form element
 
       try {
-        const response = await fetch('/api/catalog/add', {
+        const response = await fetch('/api/products/', {
           method: 'POST',
           body: formData, // FormData handles 'multipart/form-data' header automatically
         });
@@ -320,8 +341,74 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  // --- Custom Filter Dropdown Logic (Simplified for My Catalog) ---
+  function setupFilterDropdown(wrapperId, hiddenInputId, optionsId) {
+    const wrapper = document.getElementById(wrapperId);
+    if (!wrapper) return;
+
+    const hiddenInput = document.getElementById(hiddenInputId);
+    const display = wrapper.querySelector('.custom-select-display');
+    const optionsContainer = document.getElementById(optionsId);
+
+    display.addEventListener('click', () => {
+      // Close other open dropdowns
+      document.querySelectorAll('.custom-select-wrapper.open').forEach(openWrapper => {
+        if (openWrapper !== wrapper) {
+          openWrapper.classList.remove('open');
+        }
+      });
+      wrapper.classList.toggle('open');
+      if (wrapper.classList.contains('open')) {
+        display.classList.add('focused');
+      } else {
+        display.classList.remove('focused');
+      }
+    });
+
+    optionsContainer.addEventListener('click', (event) => {
+      const targetOption = event.target.closest('.custom-select-option');
+      if (targetOption && targetOption.closest(`#${optionsId}`) === optionsContainer) {
+        const value = targetOption.dataset.value;
+        const text = targetOption.textContent.trim();
+
+        hiddenInput.value = value;
+        display.textContent = text;
+        wrapper.classList.remove('open');
+        display.classList.remove('focused');
+
+        // Mark selected option
+        optionsContainer.querySelectorAll('.custom-select-option').forEach(option => {
+          option.classList.remove('selected');
+        });
+        targetOption.classList.add('selected');
+
+        filterProducts(value); // Trigger filtering
+      }
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!wrapper.contains(event.target)) {
+        wrapper.classList.remove('open');
+        display.classList.remove('focused');
+      }
+    });
+
+    // Set initial display value based on hidden input
+    if (hiddenInput.value) {
+      const selectedOption = optionsContainer.querySelector(`.custom-select-option[data-value="${hiddenInput.value}"]`);
+      if (selectedOption) {
+        display.textContent = selectedOption.textContent.trim();
+        selectedOption.classList.add('selected');
+      }
+    }
+  }
+
   // Setup Category and Material Dropdowns
   setupCustomDropdown('categorySelectWrapper', 'productCategory', 'categoryOptions', 'categoryDisplay', 'customCategoryInputContainer', 'newCategoryName', 'addCustomCategoryBtn', '/api/dashboard/add-category', 'category');
   setupCustomDropdown('materialSelectWrapper', 'productMaterial', 'materialOptions', 'materialDisplay', 'customMaterialInputContainer', 'newMaterialName', 'addCustomMaterialBtn', '/api/dashboard/add-material', 'material');
+
+  // Setup Catalog Category Filter
+  setupFilterDropdown('catalogCategoryFilterWrapper', 'catalogProductCategory', 'catalogCategoryOptions');
 
 });
