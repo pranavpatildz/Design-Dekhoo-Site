@@ -415,4 +415,27 @@ function renderProductCard(product) {
   // Setup Catalog Category Filter
   setupFilterDropdown('catalogCategoryFilterWrapper', 'catalogProductCategory', 'catalogCategoryOptions');
 
+  // Frontend image validation
+  const imageInput = document.querySelector('input[name="images"]');
+
+  if (imageInput) {
+    imageInput.addEventListener("change", function () {
+      const files = this.files;
+      const maxSize = 5 * 1024 * 1024; // 5MB
+
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].size > maxSize) {
+          alert("Each image must be less than 5MB.");
+          this.value = ""; // Clear selected files
+          return;
+        }
+      }
+
+      if (files.length > 3) {
+        alert("You can upload maximum 3 images.");
+        this.value = "";
+      }
+    });
+  }
+
 });

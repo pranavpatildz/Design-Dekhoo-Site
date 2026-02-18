@@ -5,37 +5,39 @@ const { cloudinary } = require('../config/cloudinary'); // Added
 
 exports.addFurniture = async (req, res) => {
   try {
-    const errors = validationResult(req); // Keep validation
+    const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     let imagesArray = [];
 
+    console.log("Uploaded Files:", req.files); // TEMP LOG FOR DEBUGGING
+
     if (req.files && req.files.length > 0) {
       imagesArray = req.files.map(file => ({
-        url: file.secure_url,        // Use secure_url
-        public_id: file.public_id    // Use public_id
+        url: file.path || file.secure_url,
+        public_id: file.filename || file.public_id
       }));
     }
 
-    const newFurniture = new Furniture({ // Changed from Product to Furniture
+    const newFurniture = new Furniture({
       title: req.body.title,
       description: req.body.description,
       price: req.body.price,
       category: req.body.category,
       material: req.body.material,
-      shopOwnerId: req.user._id, // Changed from req.user.id to req.user._id
+      shopOwnerId: req.user._id,
       images: imagesArray
     });
 
-    const furniture = await newFurniture.save();
+    await newFurniture.save();
 
-    res.status(201).json({ msg: 'Product added successfully', furniture }); // Consistent response format
+    res.status(201).json({ msg: 'Product added successfully', furniture: newFurniture });
 
-  } catch (err) { // Changed error variable name to err for consistency
-    console.error(err.message);
-    res.status(500).send('Server Error'); // Consistent error message
+  } catch (error) {
+    console.error("Create Product Error:", error);
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -113,7 +115,7 @@ exports.updateFurniture = async (req, res) => {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({ msg: 'Furniture not found' });
     }
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -139,7 +141,7 @@ exports.deleteFurniture = async (req, res) => {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({ msg: 'Furniture not found' });
     }
-    res.status(500).send('Server Error');
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
