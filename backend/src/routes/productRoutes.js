@@ -1,14 +1,33 @@
 const express = require("express");
 const router = express.Router();
-const { check } = require('express-validator'); // Added
+const { check } = require('express-validator');
 const { protect } = require("../middleware/auth");
-const upload = require('../middleware/multer'); // Added
-const { 
-  getMyProducts, // Already there
-  addFurniture, // Added
-  updateFurniture, // Added
-  deleteFurniture // Added
+const upload = require('../middleware/multer');
+const {
+  getMyProducts,
+  addFurniture,
+  updateFurniture,
+  deleteFurniture
 } = require("../controllers/productController");
+const multer = require('multer'); // Import multer here for error handling
+
+// Custom multer error handling middleware
+const handleMulterErrors = (req, res, next) => {
+  upload.array('images', 3)(req, res, function (err) { // Use 'upload.array' with the limit of 3
+    if (err instanceof multer.MulterError) {
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).json({ message: "Each image must be less than 5MB" });
+      }
+      // Handle other Multer errors if needed
+      return res.status(400).json({ message: err.message });
+    } else if (err) {
+      // Handle other unknown errors
+      return res.status(500).json({ message: err.message });
+    }
+    next(); // Continue to the next middleware/controller
+  });
+};
+
 
 router.get("/my", protect, getMyProducts);
 
@@ -16,10 +35,10 @@ router.get("/my", protect, getMyProducts);
 // @desc    Add new furniture
 // @access  Private
 router.post(
-  '/', // Changed from /add to /
+  '/',
   [
-    protect, // Using protect middleware
-    upload.array('images', 5), // 'images' is the field name, 5 is the max number of files
+    protect,
+    handleMulterErrors, // Use the custom error handling middleware
     [
       check('category', 'Category is required').not().isEmpty(),
       check('title', 'Title is required').not().isEmpty(),
@@ -36,8 +55,8 @@ router.post(
 router.put(
   '/:id',
   [
-    protect, // Using protect middleware
-    upload.array('images', 5), // Allow image updates, optional
+    protect,
+    handleMulterErrors, // Use the custom error handling middleware
     [
       check('category', 'Category is required').optional().not().isEmpty(),
       check('title', 'Title is required').optional().not().isEmpty(),

@@ -5,34 +5,37 @@ const { cloudinary } = require('../config/cloudinary'); // Added
 
 exports.addFurniture = async (req, res) => {
   try {
-    const errors = validationResult(req);
+    const errors = validationResult(req); // Keep validation
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-               const { category, title, material, price, description } = req.body;
-               const shopOwnerId = req.user._id;
-               // Images are now optional
-                          console.log("REQ.FILE:", req.file); // Debug log for single file
-                          console.log("REQ.FILES:", req.files); // My existing debug log for multiple files
-                                     const images = req.files
-                                       ? req.files.filter(file => file && file.secure_url).map(file => file.secure_url)
-                                       : [];    const newFurniture = new Furniture({
-      shopOwnerId,
-      category,
-      title,
-      material,
-      price,
-      description,
-      images,
+    let imagesArray = [];
+
+    if (req.files && req.files.length > 0) {
+      imagesArray = req.files.map(file => ({
+        url: file.secure_url,        // Use secure_url
+        public_id: file.public_id    // Use public_id
+      }));
+    }
+
+    const newFurniture = new Furniture({ // Changed from Product to Furniture
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      category: req.body.category,
+      material: req.body.material,
+      shopOwnerId: req.user._id, // Changed from req.user.id to req.user._id
+      images: imagesArray
     });
 
     const furniture = await newFurniture.save();
-    res.status(201).json({ msg: 'Product added successfully', furniture });
-  } catch (err)
-  {
+
+    res.status(201).json({ msg: 'Product added successfully', furniture }); // Consistent response format
+
+  } catch (err) { // Changed error variable name to err for consistency
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Server Error'); // Consistent error message
   }
 };
 
@@ -56,23 +59,42 @@ exports.updateFurniture = async (req, res) => {
     // Handle image updates
     if (req.files && req.files.length > 0) {
         // Delete old images from Cloudinary
-        for (const imageUrl of furniture.images) {
-            const publicId = imageUrl.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`design-dekhoo/${publicId}`);
+        for (const image of furniture.images) {
+            await cloudinary.uploader.destroy(image.public_id);
         }
         // Add new images
-        furnitureFields.images = req.files.map(file => file.path);
+        furnitureFields.images = req.files.map(file => ({ url: file.secure_url, public_id: file.public_id }));
     } else if (furniture.images.length > 0 && (!req.body.existingImages || req.body.existingImages.length === 0)) {
         // If no new images are uploaded and no existing images are explicitly kept
         // and there were old images, delete them.
-        for (const imageUrl of furniture.images) {
-            const publicId = imageUrl.split('/').pop().split('.')[0];
-            await cloudinary.uploader.destroy(`design-dekhoo/${publicId}`);
+        for (const image of furniture.images) {
+            await cloudinary.uploader.destroy(image.public_id);
         }
         furnitureFields.images = [];
     } else if (req.body.existingImages) {
-        // If existing images are passed as a comma-separated string, use them
-        furnitureFields.images = req.body.existingImages.split(',');
+        // Assuming req.body.existingImages is an array of objects { url, public_id } or a stringified version
+        // This part might need further refinement based on how frontend sends this data
+        if (typeof req.body.existingImages === 'string') {
+          try {
+            furnitureFields.images = JSON.parse(req.body.existingImages);
+          } catch (e) {
+            console.error("Failed to parse existingImages:", e);
+            furnitureFields.images = []; // Fallback
+          }
+        } else if (Array.isArray(req.body.existingImages)) {
+          furnitureFields.images = req.body.existingImages;
+        } else {
+          furnitureFields.images = [];
+        }
+
+        // Identify images to delete from Cloudinary (those in furniture.images but not in furnitureFields.images)
+        const currentPublicIds = new Set(furnitureFields.images.map(img => img.public_id));
+        for (const image of furniture.images) {
+            if (!currentPublicIds.has(image.public_id)) {
+                await cloudinary.uploader.destroy(image.public_id);
+            }
+        }
+
     } else {
         // If no new files and no existingImages field, keep the old ones
         furnitureFields.images = furniture.images;
@@ -105,9 +127,8 @@ exports.deleteFurniture = async (req, res) => {
     }
 
     // Delete images from Cloudinary
-    for (const imageUrl of furniture.images) {
-        const publicId = imageUrl.split('/').pop().split('.')[0];
-        await cloudinary.uploader.destroy(`design-dekhoo/${publicId}`);
+    for (const image of furniture.images) {
+        await cloudinary.uploader.destroy(image.public_id);
     }
 
     await furniture.deleteOne(); // Use deleteOne for Mongoose 6+

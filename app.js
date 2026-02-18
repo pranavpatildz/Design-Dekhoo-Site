@@ -33,7 +33,22 @@ app.use(express.json()); // For parsing application/json
 app.use(express.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
 
 // Apply security headers
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://res.cloudinary.com"
+        ],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "https:", "'unsafe-inline'"]
+      }
+    }
+  })
+);
 
 // Cookie parsing middleware
 app.use(cookieParser());

@@ -537,7 +537,6 @@ h2 {
 }
 
 .product-card {
-    background-color: #ffffff;   /* make card white */
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
@@ -550,9 +549,10 @@ h2 {
 
 .product-image-container {
     width: 100%;
-    height: 240px;
-    background-color: #f2f2f2;  /* light grey contrast */
+    height: 220px;        /* REQUIRED */
+    background-color: #fff;
     overflow: hidden;
+    position: relative; /* KEEPING this from before, as it helps other elements in the card */
 }
 
 .product-image-container img {
@@ -1734,4 +1734,21 @@ body.modal-open .dashboard-layout {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+/* ===== FINAL IMAGE FIX OVERRIDE ===== */
+
+.product-image-container {
+  width: 100% !important;
+  height: 220px !important;
+  overflow: hidden !important;
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
+  background: #ffffff !important;
+}
+
+.product-image-container img {
+  width: 100% !important;
+  height: 220px !important;
+  object-fit: cover !important;
+  display: block !important;
 }

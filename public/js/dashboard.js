@@ -58,34 +58,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // --- Reusable function to render a single product card (Basic version) ---
 
-    function renderProductCard(product) {
+function renderProductCard(product) {
 
-      console.log("PRODUCT OBJECT:", product); // Log entire product object for inspection
+  const imageUrl =
+    product.images && product.images.length > 0
+      ? (product.images[0].url || product.images[0])
+      : '/images/placeholder.jpg';
 
-                 const imageUrl = product.images && product.images.length > 0
+  const formattedPrice = `₹${Number(product.price).toLocaleString("en-IN")}`;
+  const categoryName = product.category?.name || 'N/A';
 
-                   ? product.images[0]
-
-                   : '/images/placeholder.jpg';    const formattedPrice = `₹${Number(product.price).toLocaleString("en-IN")}`;
-    const categoryName = product.category?.name || 'N/A';
-
-    return `
-      <div class="product-card card" data-product-id="${product._id}">
-        <div class="product-image-container">
-          <img class="product-image catalog-image" src="${imageUrl}" alt="${product.title}">
-        </div>
-        <div class="product-details">
-          <h4 class="product-title">${product.title}</h4>
-          <p class="product-price">${formattedPrice}</p>
-          <span class="category-badge">${categoryName}</span>
-        </div>
-        <div class="product-actions">
-          <a href="#edit-product-home?id=${product._id}" class="btn-edit">Edit</a>
-          <button class="btn-delete" data-product-id="${product._id}">Delete</button>
-        </div>
+  return `
+    <div class="product-card card" data-product-id="${product._id}">
+      <div class="product-image-container">
+        <img
+          class="product-image catalog-image"
+          src="${imageUrl}"
+          alt="${product.title}"
+          onerror="this.onerror=null;this.src='/images/placeholder.jpg';"
+        >
       </div>
-    `;
-  }
+      <div class="product-details">
+        <h4 class="product-title">${product.title}</h4>
+        <p class="product-price">${formattedPrice}</p>
+        <span class="category-badge">${categoryName}</span>
+      </div>
+      <div class="product-actions">
+        <a href="#edit-product-home?id=${product._id}" class="btn-edit">Edit</a>
+        <button class="btn-delete" data-product-id="${product._id}">Delete</button>
+      </div>
+    </div>
+  `;
+}
 
   // --- Function to render products ---
   function renderProducts(products) {
