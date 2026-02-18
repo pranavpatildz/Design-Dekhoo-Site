@@ -76,6 +76,7 @@ function renderProductCard(product) {
           src="${imageUrl}"
           alt="${product.title}"
           onerror="this.onerror=null;this.src='/images/placeholder.jpg';"
+          data-images='${JSON.stringify(product.images)}'
         >
       </div>
       <div class="product-details">
@@ -121,6 +122,17 @@ function renderProductCard(product) {
         console.log("Products received:", products);
         allShopProducts = products; // Store all products globally
         renderProducts(allShopProducts); // Initially render all products
+
+        // Add click listener after rendering
+        document.querySelectorAll(".catalog-image").forEach(img => {
+          img.addEventListener("click", function (e) { // Add 'e' parameter
+            e.stopPropagation(); // Add stopPropagation
+            const images = JSON.parse(this.dataset.images || "[]");
+            if (images.length > 0) {
+              openImageModal(images.map(img => img.url), 0);
+            }
+          });
+        });
       })
       .catch(error => {
         console.error("Catalog fetch error:", error);
@@ -437,5 +449,42 @@ function renderProductCard(product) {
       }
     });
   }
+
+  let currentImages = [];
+  let currentIndex = 0;
+
+  const modal = document.getElementById("imageModal");
+  const modalImage = document.getElementById("modalImage");
+
+  function openImageModal(images, index = 0) {
+    if (!images || images.length === 0) return;
+
+    currentImages = images;
+    currentIndex = index;
+    modalImage.src = currentImages[currentIndex];
+    modal.classList.remove("hidden");
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+  }
+
+  document.querySelector(".modal-close").addEventListener("click", closeModal);
+
+  document.querySelector(".modal-nav.next").addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % currentImages.length;
+    modalImage.src = currentImages[currentIndex];
+  });
+
+  document.querySelector(".modal-nav.prev").addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    modalImage.src = currentImages[currentIndex];
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target.classList.contains("image-modal-overlay")) {
+      closeModal();
+    }
+  });
 
 });

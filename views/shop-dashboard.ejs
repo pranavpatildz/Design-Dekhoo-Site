@@ -206,11 +206,6 @@
         </main>
     </div>
 
-    <!-- Modals and other global elements if any, go here.
-         Existing modals like share-catalog-modal and logout-confirm-modal
-         are intentionally omitted for a clean structural reset, as per strict instructions.
-         These would be re-added as part of subsequent feature implementations if required. -->
-
     <script src="/js/dashboard.js"></script>
 
     <div id="logoutModal">
@@ -224,18 +219,14 @@
       </div>
     </div>
 
-    <!-- Image Carousel Modal -->
-    <div id="imageCarouselModal" class="modal-overlay">
-      <div class="modal-content product-carousel-modal">
-        <button class="modal-close-btn">&times;</button>
-        <div class="carousel-display">
-          <img id="carouselMainImage" src="" alt="Product Image">
-          <button id="carouselPrev" class="carousel-arrow prev-arrow">&lt;</button>
-          <button id="carouselNext" class="carousel-arrow next-arrow">&gt;</button>
-        </div>
-        <div class="carousel-thumbnails" id="carouselThumbnails">
-          <!-- Thumbnails will be injected here -->
-        </div>
+    <div id="imageModal" class="image-modal hidden">
+      <div class="image-modal-overlay"></div>
+
+      <div class="image-modal-box">
+        <button class="modal-close">&times;</button>
+        <button class="modal-nav prev">&#10094;</button>
+        <img id="modalImage" src="" alt="Product Image">
+        <button class="modal-nav next">&#10095;</button>
       </div>
     </div>
 </body>

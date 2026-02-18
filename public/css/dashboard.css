@@ -437,57 +437,6 @@ h2 {
     .graph-placeholder {
         height: 200px;
     }
-}
-
-@media (min-width: 1025px) {
-    .dashboard-stats-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
-        gap: 24px;
-    }
-}
-
-
-/* Responsive adjustments for new grid */
-@media (max-width: 1024px) {
-    .dashboard-stats-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust for tablet */
-        gap: 20px;
-    }
-    .stat-card {
-        padding: 20px;
-    }
-    .stat-card .stat-value {
-        font-size: 2em;
-    }
-    .performance-card {
-        padding: 25px;
-    }
-    .product-grid { /* Tablet product grid */
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
-    }
-}
-
-@media (max-width: 767px) {
-    .dashboard-stats-grid {
-        grid-template-columns: 1fr; /* Stack on mobile */
-        gap: 15px;
-    }
-    .stat-card {
-        padding: 18px;
-    }
-    .stat-card .stat-value {
-        font-size: 2.2em;
-    }
-    .performance-card {
-        padding: 20px;
-    }
-    .performance-card h3 {
-        font-size: 1.4em;
-    }
-    .graph-placeholder {
-        height: 200px;
-    }
     .product-grid { /* Mobile product grid */
         grid-template-columns: 1fr;
         gap: 15px;
@@ -1285,10 +1234,8 @@ body.modal-open .dashboard-layout {
     padding: 10px 15px;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    color: var(--color-text-light);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #333;
+    font-size: 14px;
 }
 
 .custom-option:hover,
@@ -1751,4 +1698,76 @@ body.modal-open .dashboard-layout {
   height: 220px !important;
   object-fit: cover !important;
   display: block !important;
+}
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.image-modal.hidden {
+  display: none;
+}
+
+.image-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+}
+
+.image-modal-box {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.image-modal-box img {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.modal-nav.prev {
+  left: 15px;
+}
+
+.modal-nav.next {
+  right: 15px;
 }
