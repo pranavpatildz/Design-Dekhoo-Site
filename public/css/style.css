@@ -485,8 +485,9 @@ a {
         font-size: 0.85rem;
     }
     .explore-btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
+        width: 100%;
+        text-align: center;
+        padding: 0.7rem 1.5rem;
     }
 
     .content-section .content-text .title {
@@ -1444,5 +1445,86 @@ img {
         display: inline-block !important;
         padding: 8px 18px !important;
         font-size: 0.9rem !important;
+    }
+}
+/* STEP – Fix Hero Explore Button Width on Mobile */
+@media (max-width: 768px) {
+    .hero .btn,
+    .hero a.btn,
+    .hero a,
+    .hero button {
+        width: fit-content !important;
+        max-width: none !important;
+        display: inline-block !important;
+        padding: 8px 20px !important;
+        margin: 0 auto !important;
+    }
+}
+/* STEP – Mobile Hero Layout Adjustment */
+@media (max-width: 768px) {
+    /* Stack hero content vertically */
+    .hero {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    /* Move button after image visually */
+    .hero .btn,
+    .hero a.btn,
+    .hero button {
+        order: 3 !important;
+        width: auto !important;
+        display: inline-block !important;
+        padding: 8px 18px !important;
+        margin-top: 15px !important;
+    }
+    /* Ensure image stays above button */
+    .hero img,
+    .hero .hero-image {
+        order: 2 !important;
+    }
+}
+/* === Mobile Override for Hero Explore Button === */
+@media (max-width: 768px) {
+    .hero-text .explore-btn {
+        width: auto !important;
+        display: inline-block !important;
+        padding: 8px 18px !important;
+        margin: 15px auto 0 auto !important;
+    }
+}
+/* STEP – Fix Hero Section Alignment on Mobile */
+@media (max-width: 768px) {
+    .hero {
+        padding: 40px 20px !important;
+        text-align: center !important;
+    }
+    .hero-text {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .hero-text p {
+        max-width: 90% !important;
+    }
+    .hero-text .explore-btn {
+        margin-top: 20px !important;
+    }
+}
+/* STEP – Compact Hero Section on Mobile Only */
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+    }
+    .hero-text {
+        margin-bottom: 10px !important;
+    }
+    .hero-text h1 {
+        margin-top: 5px !important;
+        margin-bottom: 10px !important;
+    }
+    .hero-text p {
+        margin-bottom: 12px !important;
     }
 }
