@@ -1287,3 +1287,162 @@ a {
         padding: 4rem;
     }
 }
+
+/* ===== GLOBAL MOBILE FIX ===== */
+
+body {
+  overflow-x: hidden;
+}
+
+/* Images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix containers */
+.container,
+.wrapper,
+.main-content {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Fix grid collapse */
+ @media (max-width: 992px) {
+  .grid,
+  .explore-grid,
+  .product-grid,
+  .card-container {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+ @media (max-width: 576px) {
+
+  .grid,
+  .explore-grid,
+  .product-grid,
+  .card-container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .navbar {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .sidebar {
+    position: relative !important;
+    width: 100% !important;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  input {
+    width: 100%;
+  }
+
+}
+/* STEP 1 - Navbar Alignment */
+@media (max-width: 768px) {
+    .main-header {
+        padding: 12px 16px;
+    }
+    .main-nav {
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+    .nav-links {
+        display: flex !important;
+        gap: 8px;
+    }
+    .nav-btn {
+        padding: 6px 12px !important;
+        font-size: 0.85rem !important;
+    }
+}
+/* STEP 2 - Reduce Section Button Size on Mobile */
+@media (max-width: 768px) {
+    .btn,
+    button {
+        padding: 8px 14px !important;
+        font-size: 0.9rem !important;
+        border-radius: 6px !important;
+    }
+}
+/* STEP 3 - Improve Hero Spacing on Mobile */
+@media (max-width: 768px) {
+    .hero {
+        padding: 40px 20px !important;
+        text-align: center !important;
+    }
+    .hero h1 {
+        font-size: 2.2rem !important;
+    }
+    .hero p {
+        font-size: 0.95rem !important;
+    }
+}
+/* STEP 4 – Improve Card Spacing on Mobile */
+@media (max-width: 768px) {
+    .curated-collections {
+        padding: 20px !important;
+    }
+    .card,
+    .collection-card {
+        margin-bottom: 20px !important;
+    }
+}
+/* STEP 1 – Keep Navbar Same as Desktop on Mobile */
+@media (max-width: 768px) {
+    .main-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-direction: row !important;
+    }
+    .main-nav {
+        display: flex !important;
+        flex-direction: row !important;
+    }
+    .nav-links {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 10px !important;
+    }
+    .logo {
+        flex: 1;
+    }
+}
+/* STEP 2 – Reduce Section Button Size on Mobile */
+@media (max-width: 768px) {
+    .hero .btn,
+    .hero button {
+        padding: 8px 16px !important;
+        font-size: 0.9rem !important;
+        width: auto !important;
+    }
+}
+/* STEP 3 – Make Section Buttons Compact on Mobile */
+@media (max-width: 768px) {
+    .btn,
+    .nav-btn,
+    .shop-btn {
+        padding: 6px 14px !important;
+        font-size: 0.85rem !important;
+    }
+}
+/* STEP 4 – Make Hero Explore Button Compact on Mobile */
+@media (max-width: 768px) {
+    .hero a,
+    .hero button,
+    .hero .btn {
+        width: auto !important;
+        display: inline-block !important;
+        padding: 8px 18px !important;
+        font-size: 0.9rem !important;
+    }
+}

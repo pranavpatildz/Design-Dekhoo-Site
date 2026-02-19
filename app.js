@@ -35,18 +35,8 @@ app.use(express.urlencoded({ extended: true })); // For parsing application/x-ww
 // Apply security headers
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        imgSrc: [
-          "'self'",
-          "data:",
-          "https://res.cloudinary.com"
-        ],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "https:", "'unsafe-inline'"]
-      }
-    }
+    contentSecurityPolicy: false,
+    hsts: false
   })
 );
 
