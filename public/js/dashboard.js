@@ -37,6 +37,14 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", function () {
       const target = this.dataset.section;
       activateSection(target);
+
+      if (window.innerWidth <= 768) {
+          document.body.classList.remove("sidebar-open"); // Remove from body
+          const sidebar = document.querySelector(".dashboard-sidebar");
+          if (sidebar) {
+              sidebar.classList.remove("show"); // Remove 'show' from the sidebar itself
+          }
+      }
     });
   });
 
